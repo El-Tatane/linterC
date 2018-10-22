@@ -1,10 +1,11 @@
 =extends
-
+config2.lconf
 
 =rules
-- rule = on
-- rule2 = off
+- arrayBraketEol = on
+- indent = off
 
 =excludedFiles
 
 =recursive
+false
