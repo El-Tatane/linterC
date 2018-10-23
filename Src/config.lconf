@@ -2,8 +2,10 @@
 config2.lconf
 
 =rules
-- arrayBraketEol = on
-- indent = off
+- array-bracket-eol = on
+- operators-spacing = off
+- comments-header = on
+- max-line-numbers = 20
 
 =excludedFiles
 

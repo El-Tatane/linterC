@@ -3,10 +3,10 @@
 
 #include "rules.h"
 
-int getExtend(char *file);
-int getRule(char *file);
-int getExclude(char *file);
-int getRecursive(char *file);
-int getFlag(char *line, t_mode *keys);
+int getExtend(char *line, t_tmpRules *rules);
+int getRule(char *line, t_tmpRules *rules);
+int getExclude(char *line, t_tmpRules *rules);
+int getRecursive(char *line, t_tmpRules *rules);
+int getKey(char *line, t_mode *keys, int *currentKey);
 
 #endif

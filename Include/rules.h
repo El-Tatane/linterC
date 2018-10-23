@@ -1,6 +1,13 @@
 #ifndef RULES_H_
 #define RULES_H_
 
+typedef struct s_tmpRule
+{
+    char    *nameInFile;
+    char    *nameInStruct;
+    int     value;
+}               t_tmpRules;
+
 typedef struct s_rules
 { 
     int arrayBraketEol;
@@ -24,7 +31,7 @@ typedef struct s_rules
 typedef struct s_mode
 {
     int flag;
-    int (*func)(char *line);
+    int (*func)(char *line, t_tmpRules *rules);
 }               t_mode;
 
 #endif

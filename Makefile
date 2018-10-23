@@ -5,8 +5,8 @@ RM	 = rm -rf
 NAME	 = Linter
 
 
-CFLAGS	 +=  -IInclude
-LDFLAGS  = -Werror -W -Wall
+CFLAGS	 +=  -IInclude -g3
+LDFLAGS  = -Werror -W -Wall 
 
 SRC	 =  Src/main.c \
 		Src/keysFunction.c
