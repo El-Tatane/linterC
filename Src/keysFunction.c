@@ -22,32 +22,38 @@ int getRule(char *line, t_tmpRules *rules) {
         idx++;
     }
 
+    printf("%s\n", line);
     buff = strtok(line, " ");
-    printf("%s\n", buff);
-    strcpy(tmpBuff[0], buff); 
-    printf("%s aa\n", tmpBuff[0]);
-    // idx = 1;
-    // while ((tmpBuff[idx] = strtok(NULL, " ")) != NULL) {
-    //     idx++;
-    //     if (idx == 6)
-    //         return (-1);
-    // }
+    if (buff == NULL)
+        return 0;
 
-    if (tmpBuff[0][0] != '-')
-        return (0);
-    idx = 0;
-    while (idx < 16) {
-
-        // if ((strcmp(rules[idx].nameInFile, tmpBuff[1])) == 0) {
-        //     if ((strcmp(tmpBuff[4], "on")) == 0)
-        //         rules[idx].value = 0;
-        //     else if ((strcmp(tmpBuff[4], "off")) == 0)
-        //         rules[idx].value = 1;
-        //     else
-        //        rules[idx].value = atoi(tmpBuff[4]); // check atoi
-        // }
+    strcpy(tmpBuff[0], buff);
+    printf("%s\n\n", tmpBuff[0]);
+    idx = 1;
+    while ((tmpBuff[idx] = strtok(NULL, " ")) != NULL)
+    {
         idx++;
+        if (idx == 6)
+            return (-1);   
     }
+    if (tmpBuff[0][0] != '-')
+       return (0);
+
+    idx = 0;
+
+     while (idx < 16)
+    {
+        if ((strcmp(rules[idx].nameInFile, tmpBuff[1])) == 0)
+        {
+            if ((strcmp(tmpBuff[3], "on")) == 0)
+                rules[idx].value = 1;
+            else if ((strcmp(tmpBuff[3], "off")) == 0)
+                rules[idx].value = 0;
+            else
+                rules[idx].value = atoi(tmpBuff[3]); // check atoi
+        }
+        idx++;
+     }
     return (1);
 }
 

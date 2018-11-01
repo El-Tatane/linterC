@@ -76,7 +76,7 @@ t_tmpRules *initTmpRulesArray() {
     strcpy(tmpRules[0].nameInStruct, "arrayBraketEol");
     strcpy(tmpRules[1].nameInFile, "operators-spacing");
     strcpy(tmpRules[1].nameInStruct, "operatorsSpacing");
-    strcpy(tmpRules[2].nameInFile, "operators-spacing");
+    strcpy(tmpRules[2].nameInFile, "comma-spacing");
     strcpy(tmpRules[2].nameInStruct, "commaSpacing");
     strcpy(tmpRules[3].nameInFile, "indent");
     strcpy(tmpRules[3].nameInStruct, "indent");
@@ -100,8 +100,8 @@ t_tmpRules *initTmpRulesArray() {
     strcpy(tmpRules[12].nameInStruct, "undeclaredFunction");
     strcpy(tmpRules[13].nameInFile, "variable-assignment-type");
     strcpy(tmpRules[13].nameInStruct, "variableAssignmentType");
-    strcpy(tmpRules[14].nameInFile, "variable-assignment-type");
-    strcpy(tmpRules[14].nameInStruct, "variableAssignmentType");
+    strcpy(tmpRules[14].nameInFile, "undeclared-variable");
+    strcpy(tmpRules[14].nameInStruct, "undeclaredVariable");
     strcpy(tmpRules[15].nameInFile, "function-parameters-type");
     strcpy(tmpRules[15].nameInStruct, "functionParametersType");
     return (tmpRules); 
@@ -154,4 +154,5 @@ int main(int ac, char **av) {
         if (ret != 2 && currentKey != -1)
             keys[currentKey].func(buff, tmpRulesList);
     }
+    print_rules(tmpRulesList);
 }
