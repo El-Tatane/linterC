@@ -4,43 +4,30 @@
 #include "rules.h"
 
 int getExtend(char *line, t_tmpRules *rules) {
-    printf("0\n");
+    printf("%s\n", line);
     return (0);
 }
 
-int getRule(char *line, t_tmpRules *rules) {
-    char **tmpBuff;
-    char *buff;
-    int idx = 0;
-    
-    if ((tmpBuff = malloc(sizeof(char *) * 5)) == NULL)
-        return (-1);
-    while (idx < 5)
-    {
-        if ((tmpBuff[idx] = malloc(sizeof(char) * 50)) == NULL)
+int secureAtoi(char *str, int *nb)
+{
+    int idx;
+
+    *nb = 0;
+    idx = 0;
+    while (str[idx] != '\0') {
+        if (str[idx] < '0' && str[idx] > '9')
             return (-1);
         idx++;
     }
+    *nb = atoi(str);
+    return (0);
+}
 
-    printf("%s\n", line);
-    buff = strtok(line, " ");
-    if (buff == NULL)
-        return 0;
-
-    strcpy(tmpBuff[0], buff);
-    printf("%s\n\n", tmpBuff[0]);
-    idx = 1;
-    while ((tmpBuff[idx] = strtok(NULL, " ")) != NULL)
-    {
-        idx++;
-        if (idx == 6)
-            return (-1);   
-    }
-    if (tmpBuff[0][0] != '-')
-       return (0);
-
+int fillTmpRules(t_tmpRules *rules, char **tmpBuff)
+{
+    int idx;
+    int nb;
     idx = 0;
-
      while (idx < 16)
     {
         if ((strcmp(rules[idx].nameInFile, tmpBuff[1])) == 0)
@@ -50,10 +37,42 @@ int getRule(char *line, t_tmpRules *rules) {
             else if ((strcmp(tmpBuff[3], "off")) == 0)
                 rules[idx].value = 0;
             else
-                rules[idx].value = atoi(tmpBuff[3]); // check atoi
+            {   
+                if ((secureAtoi(tmpBuff[3], &nb)) != -1)
+                    rules[idx].value = nb;
+                else
+                    return (-1);
+            }
         }
         idx++;
      }
+}
+
+int getRule(char *line, t_tmpRules *rules) {
+    char **tmpBuff;
+    char *buff;
+    int idx = 0;
+    
+    if ((tmpBuff = malloc(sizeof(char *) * 5)) == NULL)
+        return (-1);
+    while (idx < 5) {
+        if ((tmpBuff[idx] = malloc(sizeof(char) * 50)) == NULL)
+            return (-1);
+        idx++;
+    }
+    if ((buff = strtok(line, " ")) == NULL)
+        return (0);
+    strcpy(tmpBuff[0], buff);
+    idx = 1;
+    while ((tmpBuff[idx] = strtok(NULL, " ")) != NULL) {
+        idx++;
+        if (idx == 6)
+            return (-1);   
+    }
+    if (tmpBuff[0][0] != '-')
+       return (0);
+    if ((fillTmpRules(rules, tmpBuff)) == -1)
+        return (-1);
     return (1);
 }
 

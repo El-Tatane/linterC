@@ -3,8 +3,18 @@
 #include <string.h>
 #include "prototypes.h"
 #include "rules.h"
+#include "extend.h"
 
+void print_rules(t_tmpRules *tmp) {
+    int i;
 
+    i = 0;
+    while (i < 16)
+    {
+        printf("%s : %d\n", tmp[i].nameInFile, tmp[i].value);
+        i++;
+    }
+}
 
 t_mode *initModeArray() {
 
@@ -107,17 +117,6 @@ t_tmpRules *initTmpRulesArray() {
     return (tmpRules); 
 }
 
-void print_rules(t_tmpRules *tmp) {
-    int i;
-
-    i = 0;
-    while (i < 16)
-    {
-        printf("%s : %d\n", tmp[i].nameInFile, tmp[i].value);
-        i++;
-    }
-}
-
 int main(int ac, char **av) {
     
     FILE *fd;
@@ -128,14 +127,14 @@ int main(int ac, char **av) {
     int currentKey;
     int ret;
     t_rules rules;
+    t_extend *extendMainNode;
 
     currentKey = -1;
     size = 256;
 
     if (ac != 2)
         return (-1);
-    if ((buff = malloc(sizeof(char) * 256)) == NULL)
-        return (-1);
+
 
     if ((fd = fopen(av[1], "r")) == NULL)
         return (-1);
@@ -145,6 +144,8 @@ int main(int ac, char **av) {
     if ((tmpRulesList = initTmpRulesArray()) == NULL)
         return (-1);   
 
+    if ((buff = malloc(sizeof(char) * 256)) == NULL)
+        return (-1);
     while (getline(&buff, &size, fd) != -1) {   
         if (buff[strlen(buff) -1] == '\n') {
             buff[strlen(buff) -1] = '\0';
@@ -152,7 +153,8 @@ int main(int ac, char **av) {
         if ((ret = getKey(buff, keys, &currentKey)) == -1)
             return (-1);
         if (ret != 2 && currentKey != -1)
-            keys[currentKey].func(buff, tmpRulesList);
+            if ((keys[currentKey].func(buff, tmpRulesList)) == -1)
+                return (-1);
     }
     print_rules(tmpRulesList);
 }
