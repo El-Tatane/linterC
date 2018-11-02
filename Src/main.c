@@ -135,7 +135,8 @@ int main(int ac, char **av) {
     if (ac != 2)
         return (-1);
 
-
+    if ((extendMainNode = initLinkedList(extendMainNode, av[1])) == NULL)
+        return (-1);
     if ((fd = fopen(av[1], "r")) == NULL)
         return (-1);
     if ((keys = initModeArray()) == NULL)

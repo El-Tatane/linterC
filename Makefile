@@ -9,7 +9,8 @@ CFLAGS	 +=  -IInclude -g3
 LDFLAGS  = -Werror -W -Wall 
 
 SRC	 =  Src/main.c \
-		Src/keysFunction.c
+		Src/keysFunction.c \
+		Src/extendLinkedList.c
 		
 
 OBJ	 = $(SRC:.c=.o)

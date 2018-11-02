@@ -5,6 +5,7 @@
 
 int getExtend(char *line, t_tmpRules *rules) {
     printf("%s\n", line);
+    //listExist(list);
     return (0);
 }
 
@@ -28,6 +29,7 @@ int fillTmpRules(t_tmpRules *rules, char **tmpBuff)
     int idx;
     int nb;
     idx = 0;
+    
      while (idx < 16)
     {
         if ((strcmp(rules[idx].nameInFile, tmpBuff[1])) == 0)
@@ -66,11 +68,13 @@ int getRule(char *line, t_tmpRules *rules) {
     idx = 1;
     while ((tmpBuff[idx] = strtok(NULL, " ")) != NULL) {
         idx++;
-        if (idx == 6)
+        if (idx == 5)
             return (-1);   
     }
     if (tmpBuff[0][0] != '-')
        return (0);
+    if (idx != 4)
+        return (-1);
     if ((fillTmpRules(rules, tmpBuff)) == -1)
         return (-1);
     return (1);
