@@ -31,7 +31,7 @@ typedef struct s_rules
 typedef struct s_mode
 {
     int flag;
-    int (*func)(char *line, t_tmpRules *rules);
+    int (*func)(char *line, t_tmpRules *rules, t_extend *mainNode);
 }               t_mode;
 
 #endif

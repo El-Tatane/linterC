@@ -2,10 +2,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include "rules.h"
+#include "extend.h"
 
-int getExtend(char *line, t_tmpRules *rules) {
+int getExtend(char *line, t_tmpRules *rules, t_extend *mainNode) {
     printf("%s\n", line);
-    //listExist(list);
+    addNode(mainNode, line);
     return (0);
 }
 
@@ -50,11 +51,12 @@ int fillTmpRules(t_tmpRules *rules, char **tmpBuff)
      }
 }
 
-int getRule(char *line, t_tmpRules *rules) {
+int getRule(char *line, t_tmpRules *rules, t_extend *mainNode) {
     char **tmpBuff;
     char *buff;
     int idx = 0;
     
+    (void)mainNode;
     if ((tmpBuff = malloc(sizeof(char *) * 5)) == NULL)
         return (-1);
     while (idx < 5) {
@@ -80,12 +82,14 @@ int getRule(char *line, t_tmpRules *rules) {
     return (1);
 }
 
-int getExclude(char *line, t_tmpRules *rules) {
+int getExclude(char *line, t_tmpRules *rules, t_extend *mainNode) {
      printf("2\n");
+    (void)mainNode;
     return (2);
 }
 
-int getRecursive(char *line, t_tmpRules *rules) {
+int getRecursive(char *line, t_tmpRules *rules, t_extend *mainNode) {
      printf("3\n");
+    (void)mainNode;
     return (3);
 }

@@ -12,10 +12,10 @@ t_extend *addNode(t_extend *mainNode, char *value);
 
 //KeyFunctions.C
 int fillTmpRules(t_tmpRules *rules, char **tmpBuff);
-int getExtend(char *line, t_tmpRules *rules);
-int getRule(char *line, t_tmpRules *rules);
-int getExclude(char *line, t_tmpRules *rules);
-int getRecursive(char *line, t_tmpRules *rules);
+int getExtend(char *line, t_tmpRules *rules, t_extend *mainNode);
+int getRule(char *line, t_tmpRules *rules, t_extend *mainNode);
+int getExclude(char *line, t_tmpRules *rules, t_extend *mainNode);
+int getRecursive(char *line, t_tmpRules *rules, t_extend *mainNode);
 
 //Main.C
 int getKey(char *line, t_mode *keys, int *currentKey);

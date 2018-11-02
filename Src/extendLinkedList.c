@@ -40,6 +40,8 @@ t_extend *addNode(t_extend *mainNode, char *value)
     t_extend *newNode;
     t_extend *location;
 
+    if ((listExist(mainNode, value)) == 1)
+        return (NULL);
     if ((newNode = malloc(sizeof(t_extend) * 1)) == NULL)
         return (NULL);
     if ((newNode->path = malloc(sizeof(char) * strlen(value))) == NULL)
