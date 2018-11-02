@@ -1,6 +1,16 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "extend.h"
+
+void displayList(t_extend *mainNode)
+{
+    while (mainNode->next != NULL)
+    {
+        printf("%s\n", mainNode->path);
+        mainNode = mainNode->next;
+    }
+}
 
 unsigned int listExist(t_extend *mainNode, char *str)
 {

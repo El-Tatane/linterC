@@ -9,6 +9,7 @@ unsigned int listExist(t_extend *mainNode, char *str);
 unsigned int listLength(t_extend *mainNode);
 t_extend *initLinkedList(t_extend *mainNode, char *value);
 t_extend *addNode(t_extend *mainNode, char *value);
+void displayList(t_extend *mainNode);
 
 //KeyFunctions.C
 int fillTmpRules(t_tmpRules *rules, char **tmpBuff);

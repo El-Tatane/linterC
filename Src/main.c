@@ -117,20 +117,40 @@ t_tmpRules *initTmpRulesArray() {
     return (tmpRules); 
 }
 
-int main(int ac, char **av) {
-    
-    FILE *fd;
+int getDataFromFile(t_mode *keys, t_tmpRules *tmpRulesList, t_extend *extendMainNode)
+{
     char *buff;
     size_t size;
-    t_mode *keys;
-    t_tmpRules *tmpRulesList;
-    int currentKey;
     int ret;
-    t_rules rules;
-    t_extend *extendMainNode;
+    int currentKey;
 
     currentKey = -1;
     size = 256;
+    if ((buff = malloc(sizeof(char) * 256)) == NULL)
+        return (-1);
+    while (getline(&buff, &size, fd) != -1)
+    {
+        if (buff[strlen(buff) - 1] == '\n')
+        {
+            buff[strlen(buff) - 1] = '\0';
+        }
+        if ((ret = getKey(buff, keys, &currentKey)) == -1)
+            return (-1);
+        if (ret != 2 && currentKey != -1)
+            if ((keys[currentKey].func(buff, tmpRulesList, extendMainNode)) == -1)
+                return (-1);
+    }
+    return (0);
+}
+
+int main(int ac, char **av) {
+    
+    FILE *fd;
+    
+    t_mode *keys;
+    t_tmpRules *tmpRulesList;
+    t_rules rules;
+    t_extend *extendMainNode;
 
     if (ac != 2)
         return (-1);
@@ -144,18 +164,9 @@ int main(int ac, char **av) {
 
     if ((tmpRulesList = initTmpRulesArray()) == NULL)
         return (-1);   
-
-    if ((buff = malloc(sizeof(char) * 256)) == NULL)
-        return (-1);
-    while (getline(&buff, &size, fd) != -1) {   
-        if (buff[strlen(buff) -1] == '\n') {
-            buff[strlen(buff) -1] = '\0';
-        }
-        if ((ret = getKey(buff, keys, &currentKey)) == -1)
-            return (-1);
-        if (ret != 2 && currentKey != -1)
-            if ((keys[currentKey].func(buff, tmpRulesList)) == -1)
-                return (-1);
     }
+    if ((getDataFromFile(keys, tmpRulesList, extendMainNode)) == -1)
+        return (-1);
     print_rules(tmpRulesList);
+    return (0);
 }
