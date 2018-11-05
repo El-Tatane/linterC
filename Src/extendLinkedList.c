@@ -5,9 +5,9 @@
 
 void displayList(t_extend *mainNode)
 {
-    while (mainNode->next != NULL)
+    while (mainNode != NULL)
     {
-        printf("%s\n", mainNode->path);
+        printf("NODE %s\n", mainNode->path);
         mainNode = mainNode->next;
     }
 }
@@ -38,7 +38,7 @@ t_extend *initLinkedList(t_extend *mainNode, char *value)
 {
     if ((mainNode = malloc(sizeof(t_extend) * 1)) == NULL)
         return (NULL);
-    if ((mainNode->path = malloc(sizeof(char) * strlen(value))) == NULL)
+    if ((mainNode->path = malloc(sizeof(char) * strlen(value) + 1)) == NULL)
         return (NULL);
     mainNode->next = NULL;
     strcpy(mainNode->path, value);
@@ -50,16 +50,18 @@ t_extend *addNode(t_extend *mainNode, char *value)
     t_extend *newNode;
     t_extend *location;
 
+    location = mainNode;
     if ((listExist(mainNode, value)) == 1)
         return (NULL);
     if ((newNode = malloc(sizeof(t_extend) * 1)) == NULL)
         return (NULL);
-    if ((newNode->path = malloc(sizeof(char) * strlen(value))) == NULL)
+    if ((newNode->path = malloc(sizeof(char) * strlen(value) + 1)) == NULL)
         return (NULL);
     while (location->next != NULL)
         location = location->next;
-    location->next = newNode;
     newNode->next = NULL;
     strcpy(newNode->path, value);
+    location->next = newNode;
+    
     return (mainNode);
 }

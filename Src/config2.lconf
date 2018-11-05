@@ -1,11 +1,10 @@
 =extends
-./Src/config2.lconf
-
 =rules
-- array-bracket-eol = on
+- array-bracket-eol = off
 - operators-spacing = off
 - comments-header = on
-- max-line-numbers = 20
+- max-line-numbers = 66
+- no-trailing-spaces = on
 
 =excludedFiles
 

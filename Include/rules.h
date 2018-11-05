@@ -1,6 +1,8 @@
 #ifndef RULES_H_
 #define RULES_H_
 
+#include "extend.h"
+
 typedef struct s_tmpRule
 {
     char    *nameInFile;
@@ -26,6 +28,7 @@ typedef struct s_rules
     int undeclaredFunction;
     int variableAssignmentType;
     int functionParametersType;
+    int recursive;
 }               t_rules;
 
 typedef struct s_mode

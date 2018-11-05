@@ -71,9 +71,9 @@ t_tmpRules *initTmpRulesArray() {
     int        idx; 
 
     idx = 0;
-    if ((tmpRules = malloc(sizeof(t_tmpRules) * 16)) == NULL)
+    if ((tmpRules = malloc(sizeof(t_tmpRules) * 17)) == NULL)
         return (NULL);
-    while (idx < 16){
+    while (idx < 17){
         if ((tmpRules[idx].nameInFile = malloc(sizeof(char) * 50)) == NULL)
             return (NULL);
         if ((tmpRules[idx].nameInStruct = malloc(sizeof(char) * 50)) == NULL)
@@ -114,59 +114,71 @@ t_tmpRules *initTmpRulesArray() {
     strcpy(tmpRules[14].nameInStruct, "undeclaredVariable");
     strcpy(tmpRules[15].nameInFile, "function-parameters-type");
     strcpy(tmpRules[15].nameInStruct, "functionParametersType");
+    strcpy(tmpRules[16].nameInFile, "recursive");
+    strcpy(tmpRules[16].nameInStruct, "recursive");
     return (tmpRules); 
 }
 
-int getDataFromFile(t_mode *keys, t_tmpRules *tmpRulesList, t_extend *extendMainNode)
+int getDataFromFile(char *filepath, t_mode *keys, t_tmpRules *tmpRulesList, t_extend *extendMainNode)
 {
     char *buff;
     size_t size;
     int ret;
     int currentKey;
-
+    FILE *fd;
     currentKey = -1;
     size = 256;
+
+    if ((fd = fopen(filepath, "r")) == NULL)
+        return (-1);  
     if ((buff = malloc(sizeof(char) * 256)) == NULL)
         return (-1);
     while (getline(&buff, &size, fd) != -1)
     {
         if (buff[strlen(buff) - 1] == '\n')
-        {
             buff[strlen(buff) - 1] = '\0';
-        }
         if ((ret = getKey(buff, keys, &currentKey)) == -1)
             return (-1);
         if (ret != 2 && currentKey != -1)
+        {
             if ((keys[currentKey].func(buff, tmpRulesList, extendMainNode)) == -1)
                 return (-1);
+        }
     }
     return (0);
 }
 
-int main(int ac, char **av) {
-    
-    FILE *fd;
-    
+int main(int ac, char **av) { 
     t_mode *keys;
     t_tmpRules *tmpRulesList;
     t_rules rules;
     t_extend *extendMainNode;
-
+    t_extend *tmpNode;
+    
+    
     if (ac != 2)
         return (-1);
 
     if ((extendMainNode = initLinkedList(extendMainNode, av[1])) == NULL)
         return (-1);
-    if ((fd = fopen(av[1], "r")) == NULL)
-        return (-1);
     if ((keys = initModeArray()) == NULL)
         return (-1);
 
     if ((tmpRulesList = initTmpRulesArray()) == NULL)
-        return (-1);   
-    }
-    if ((getDataFromFile(keys, tmpRulesList, extendMainNode)) == -1)
         return (-1);
+    tmpNode = extendMainNode;
+    while (tmpNode != NULL)
+    {
+        if ((getDataFromFile(tmpNode->path, keys, tmpRulesList, extendMainNode)) == -1)
+            return (-1);
+        keys[0].flag = 0;
+        keys[1].flag = 0;
+        keys[2].flag = 0;
+        keys[3].flag = 0;
+        tmpNode = tmpNode->next;
+    }
+
     print_rules(tmpRulesList);
+    displayList(extendMainNode);
     return (0);
 }

@@ -2,11 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include "rules.h"
+#include "prototypes.h"
 #include "extend.h"
 
 int getExtend(char *line, t_tmpRules *rules, t_extend *mainNode) {
-    printf("%s\n", line);
-    addNode(mainNode, line);
+    if (line[0] == '\0')
+        return (0);
+    if ((mainNode = addNode(mainNode, line)) == NULL)
+        return (-1);
     return (0);
 }
 
@@ -17,7 +20,7 @@ int secureAtoi(char *str, int *nb)
     *nb = 0;
     idx = 0;
     while (str[idx] != '\0') {
-        if (str[idx] < '0' && str[idx] > '9')
+        if (str[idx] < '0' || str[idx] > '9')
             return (-1);
         idx++;
     }
@@ -49,6 +52,7 @@ int fillTmpRules(t_tmpRules *rules, char **tmpBuff)
         }
         idx++;
      }
+    return (0);
 }
 
 int getRule(char *line, t_tmpRules *rules, t_extend *mainNode) {
