@@ -113,3 +113,45 @@ int getRecursive(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *
         return (-1);
     return (0);
 }
+
+int fillRuleStuct(t_tmpRules *tmpRules, t_rules *rules){
+
+    
+    for (int i = 0; i < 17; i++)
+    {
+        rules->arrayBraketEol = (strcmp( tmpRules[i].nameInFile,"array-bracket-eol") == 0) ? tmpRules[i].value : rules->arrayBraketEol ;
+        rules->operatorsSpacing = (strcmp( tmpRules[i].nameInFile,"operators-spacing") == 0) ? tmpRules[i].value : rules->operatorsSpacing ;
+        rules->commaSpacing = (strcmp( tmpRules[i].nameInFile,"comma-spacing") == 0) ? tmpRules[i].value : rules->commaSpacing ;
+        rules->indent = (strcmp( tmpRules[i].nameInFile,"indent") == 0) ? tmpRules[i].value : rules->indent ;
+        rules->commentsHeader = (strcmp( tmpRules[i].nameInFile,"comments-header") == 0) ? tmpRules[i].value : rules->commentsHeader ;
+        rules->maxLineNumbers = (strcmp( tmpRules[i].nameInFile,"max-line-numbers") == 0) ? tmpRules[i].value : rules->maxLineNumbers ;
+        rules->maxFileLineNumbers = (strcmp( tmpRules[i].nameInFile,"max-file-line-numbers") == 0) ? tmpRules[i].value : rules->maxFileLineNumbers ;
+        rules->noTrailingSpaces = (strcmp( tmpRules[i].nameInFile,"no-trailing-spaces") == 0) ? tmpRules[i].value : rules->noTrailingSpaces ;
+        rules->noMultiDeclaration = (strcmp( tmpRules[i].nameInFile,"no-multi-declaration") == 0) ? tmpRules[i].value : rules->noMultiDeclaration ;
+        rules->unusedVariable = (strcmp( tmpRules[i].nameInFile,"unused-variable") == 0) ? tmpRules[i].value : rules->unusedVariable ;
+        rules->undeclaredVariable = (strcmp( tmpRules[i].nameInFile,"undeclared-variable") == 0) ? tmpRules[i].value : rules->undeclaredVariable ;
+        rules->noPrototype = (strcmp( tmpRules[i].nameInFile,"no-prototype") == 0) ? tmpRules[i].value : rules->noPrototype ;
+        rules->unusedFunction = (strcmp( tmpRules[i].nameInFile,"unused-function") == 0) ? tmpRules[i].value : rules->unusedFunction ;
+        rules->undeclaredFunction = (strcmp( tmpRules[i].nameInFile,"undeclared-function") == 0) ? tmpRules[i].value : rules->undeclaredFunction ;
+        rules->variableAssignmentType  = (strcmp(tmpRules[i].nameInFile,"variable-assignment-type") == 0) ? tmpRules[i].value : rules->variableAssignmentType ;
+        rules->functionParametersType  = (strcmp(tmpRules[i].nameInFile,"function-parameters-type") == 0) ? tmpRules[i].value : rules->functionParametersType ;
+        rules->recursive = (strcmp( tmpRules[i].nameInFile,"recursive") == 0) ? tmpRules[i].value : rules->recursive ;
+    }
+    return 0;
+}
+
+int isCFile(char* nameFile){
+
+    if( strstr(nameFile, ".c") )
+        return 0;
+
+    return -1;
+}
+
+int isLconfFile(char* nameFile){
+
+    if( strstr(nameFile, ".lconf") )
+        return 0;
+    
+    return -1;
+}

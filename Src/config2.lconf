@@ -1,6 +1,6 @@
 =extends
 =rules
-- array-bracket-eol = off
+- array-bracket-eol = on
 - operators-spacing = off
 - comments-header = on
 - max-line-numbers = 66

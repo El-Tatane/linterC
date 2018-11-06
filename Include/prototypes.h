@@ -17,6 +17,11 @@ int getExtend(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExclu
 int getRule(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExcludeNode);
 int getExclude(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExcludeNode);
 int getRecursive(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExcludeNode);
+int fillRuleStuct(t_tmpRules *tmpRules, t_rules *rules);
+int isCFile(char* nameFile);
+int isLconfFile(char* nameFile);
+
+
 
 //Main.C
 int getKey(char *line, t_mode *keys, int *currentKey);

@@ -1,5 +1,5 @@
 =extends
-./Src/config2.lconf
+
 
 =rules
 - array-bracket-eol = on
