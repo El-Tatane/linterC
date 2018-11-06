@@ -1,7 +1,7 @@
 #ifndef RULES_H_
 #define RULES_H_
 
-#include "extend.h"
+#include "list.h"
 
 typedef struct s_tmpRule
 {
@@ -34,7 +34,7 @@ typedef struct s_rules
 typedef struct s_mode
 {
     int flag;
-    int (*func)(char *line, t_tmpRules *rules, t_extend *mainNode);
+    int (*func)(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExcludeNode);
 }               t_mode;
 
 #endif

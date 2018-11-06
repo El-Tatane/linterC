@@ -3,12 +3,15 @@
 #include <stdlib.h>
 #include "rules.h"
 #include "prototypes.h"
-#include "extend.h"
+#include "list.h"
 
-int getExtend(char *line, t_tmpRules *rules, t_extend *mainNode) {
+int getExtend(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *mainExcludeNode) {
+    (void)mainExcludeNode;
+
     if (line[0] == '\0')
         return (0);
-    if ((mainNode = addNode(mainNode, line)) == NULL)
+        // errreur si pas .lconf
+    if ((mainExtendNode = addNode(mainExtendNode, line)) == NULL)
         return (-1);
     return (0);
 }
@@ -55,12 +58,13 @@ int fillTmpRules(t_tmpRules *rules, char **tmpBuff)
     return (0);
 }
 
-int getRule(char *line, t_tmpRules *rules, t_extend *mainNode) {
+int getRule(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *mainExcludeNode) {
     char **tmpBuff;
     char *buff;
     int idx = 0;
     
-    (void)mainNode;
+    (void)mainExtendNode;
+    (void)mainExcludeNode;
     if ((tmpBuff = malloc(sizeof(char *) * 5)) == NULL)
         return (-1);
     while (idx < 5) {
@@ -83,17 +87,29 @@ int getRule(char *line, t_tmpRules *rules, t_extend *mainNode) {
         return (-1);
     if ((fillTmpRules(rules, tmpBuff)) == -1)
         return (-1);
-    return (1);
+    return (0);
 }
 
-int getExclude(char *line, t_tmpRules *rules, t_extend *mainNode) {
-     printf("2\n");
-    (void)mainNode;
-    return (2);
+int getExclude(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *mainExcludeNode) {
+    (void)mainExtendNode;
+
+    if (line[0] == '\0')
+        return (0);
+        // errreur si pas .c
+    if ((mainExcludeNode = addNode(mainExcludeNode, line)) == NULL)
+        return (-1);
+    return (0);
 }
 
-int getRecursive(char *line, t_tmpRules *rules, t_extend *mainNode) {
-     printf("3\n");
-    (void)mainNode;
-    return (3);
+int getRecursive(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *mainExcludeNode) {
+    (void)mainExtendNode;
+    (void)mainExcludeNode;
+
+    if  ((strcmp(line, "false")) == 0)
+        rules[16].value = 0;
+    else if ((strcmp(line, "true")) == 0)
+        rules[16].value = 1;
+    else
+        return (-1);
+    return (0);
 }

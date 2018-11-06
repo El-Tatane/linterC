@@ -2,21 +2,21 @@
 #define PROTOTYPES_H_
 
 #include "rules.h"
-#include "extend.h"
+#include "list.h"
 
 //extendLinkedList.C
-unsigned int listExist(t_extend *mainNode, char *str);
-unsigned int listLength(t_extend *mainNode);
-t_extend *initLinkedList(t_extend *mainNode, char *value);
-t_extend *addNode(t_extend *mainNode, char *value);
-void displayList(t_extend *mainNode);
+unsigned int listExist(t_list *mainNode, char *str);
+unsigned int listLength(t_list *mainNode);
+t_list *initLinkedList(t_list *mainNode, char *value);
+t_list *addNode(t_list *mainNode, char *value);
+void displayList(t_list *mainNode);
 
 //KeyFunctions.C
 int fillTmpRules(t_tmpRules *rules, char **tmpBuff);
-int getExtend(char *line, t_tmpRules *rules, t_extend *mainNode);
-int getRule(char *line, t_tmpRules *rules, t_extend *mainNode);
-int getExclude(char *line, t_tmpRules *rules, t_extend *mainNode);
-int getRecursive(char *line, t_tmpRules *rules, t_extend *mainNode);
+int getExtend(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExcludeNode);
+int getRule(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExcludeNode);
+int getExclude(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExcludeNode);
+int getRecursive(char *line, t_tmpRules *rules, t_list *mainNode, t_list *mainExcludeNode);
 
 //Main.C
 int getKey(char *line, t_mode *keys, int *currentKey);

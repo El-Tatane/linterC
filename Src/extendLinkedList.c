@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "extend.h"
+#include "list.h"
 
-void displayList(t_extend *mainNode)
+void displayList(t_list *mainNode)
 {
     while (mainNode != NULL)
     {
@@ -12,7 +12,7 @@ void displayList(t_extend *mainNode)
     }
 }
 
-unsigned int listExist(t_extend *mainNode, char *str)
+unsigned int listExist(t_list *mainNode, char *str)
 {
     while (mainNode->next != NULL)
     {
@@ -23,9 +23,12 @@ unsigned int listExist(t_extend *mainNode, char *str)
     return (0);
 } 
 
-unsigned int listLength(t_extend *mainNode)
+unsigned int listLength(t_list *mainNode)
 {
     int i = 0;
+    
+    if (mainNode == NULL)
+        return (0);
     while (mainNode->next != NULL)
     {
         i++;
@@ -34,9 +37,9 @@ unsigned int listLength(t_extend *mainNode)
     return (i);
 } 
 
-t_extend *initLinkedList(t_extend *mainNode, char *value)
+t_list *initLinkedList(t_list *mainNode, char *value)
 {
-    if ((mainNode = malloc(sizeof(t_extend) * 1)) == NULL)
+    if ((mainNode = malloc(sizeof(t_list) * 1)) == NULL)
         return (NULL);
     if ((mainNode->path = malloc(sizeof(char) * strlen(value) + 1)) == NULL)
         return (NULL);
@@ -45,15 +48,15 @@ t_extend *initLinkedList(t_extend *mainNode, char *value)
     return (mainNode);
 }
 
-t_extend *addNode(t_extend *mainNode, char *value)
+t_list *addNode(t_list *mainNode, char *value)
 {
-    t_extend *newNode;
-    t_extend *location;
+    t_list *newNode;
+    t_list *location;
 
     location = mainNode;
     if ((listExist(mainNode, value)) == 1)
         return (NULL);
-    if ((newNode = malloc(sizeof(t_extend) * 1)) == NULL)
+    if ((newNode = malloc(sizeof(t_list) * 1)) == NULL)
         return (NULL);
     if ((newNode->path = malloc(sizeof(char) * strlen(value) + 1)) == NULL)
         return (NULL);

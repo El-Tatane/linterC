@@ -3,13 +3,13 @@
 #include <string.h>
 #include "prototypes.h"
 #include "rules.h"
-#include "extend.h"
+#include "list.h"
 
 void print_rules(t_tmpRules *tmp) {
     int i;
 
     i = 0;
-    while (i < 16)
+    while (i < 17)
     {
         printf("%s : %d\n", tmp[i].nameInFile, tmp[i].value);
         i++;
@@ -119,7 +119,7 @@ t_tmpRules *initTmpRulesArray() {
     return (tmpRules); 
 }
 
-int getDataFromFile(char *filepath, t_mode *keys, t_tmpRules *tmpRulesList, t_extend *extendMainNode)
+int getDataFromFile(char *filepath, t_mode *keys, t_tmpRules *tmpRulesList, t_list *extendMainNode, t_list *excludeMainNode)
 {
     char *buff;
     size_t size;
@@ -141,7 +141,7 @@ int getDataFromFile(char *filepath, t_mode *keys, t_tmpRules *tmpRulesList, t_ex
             return (-1);
         if (ret != 2 && currentKey != -1)
         {
-            if ((keys[currentKey].func(buff, tmpRulesList, extendMainNode)) == -1)
+            if ((keys[currentKey].func(buff, tmpRulesList, extendMainNode, excludeMainNode)) == -1)
                 return (-1);
         }
     }
@@ -152,24 +152,27 @@ int main(int ac, char **av) {
     t_mode *keys;
     t_tmpRules *tmpRulesList;
     t_rules rules;
-    t_extend *extendMainNode;
-    t_extend *tmpNode;
+    t_list *extendMainNode;
+    t_list *excludeMainNode;
+    t_list *tmpNode;
     
     
+    excludeMainNode = NULL;
     if (ac != 2)
         return (-1);
 
     if ((extendMainNode = initLinkedList(extendMainNode, av[1])) == NULL)
         return (-1);
+    if ((excludeMainNode = initLinkedList(excludeMainNode, "LINTER_EXCLUDE")) == NULL)
+        return (-1);
     if ((keys = initModeArray()) == NULL)
         return (-1);
-
     if ((tmpRulesList = initTmpRulesArray()) == NULL)
         return (-1);
     tmpNode = extendMainNode;
     while (tmpNode != NULL)
     {
-        if ((getDataFromFile(tmpNode->path, keys, tmpRulesList, extendMainNode)) == -1)
+        if ((getDataFromFile(tmpNode->path, keys, tmpRulesList, extendMainNode, excludeMainNode)) == -1)
             return (-1);
         keys[0].flag = 0;
         keys[1].flag = 0;
@@ -177,8 +180,8 @@ int main(int ac, char **av) {
         keys[3].flag = 0;
         tmpNode = tmpNode->next;
     }
-
     print_rules(tmpRulesList);
     displayList(extendMainNode);
+    displayList(excludeMainNode);
     return (0);
 }
