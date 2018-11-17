@@ -21,8 +21,6 @@ int fillRuleStuct(t_tmpRules *tmpRules, t_rules *rules);
 int isCFile(char* nameFile);
 int isLconfFile(char* nameFile);
 
-
-
 //Main.C
 int getKey(char *line, t_mode *keys, int *currentKey);
 

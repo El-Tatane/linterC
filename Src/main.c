@@ -16,6 +16,30 @@ void print_rules(t_tmpRules *tmp) {
     }
 }
 
+void print_final_rules(t_list *extendMainNode, t_list *excludeMainNode, t_rules rules)
+{
+    printf("arrayBraketEol : %d\n", rules.arrayBraketEol);
+    printf("operatorsSpacing : %d\n", rules.operatorsSpacing);
+    printf("commaSpacing : %d\n", rules.commaSpacing);
+    printf("indent : %d\n", rules.indent);
+    printf("commentsHeader : %d\n", rules.commentsHeader);
+    printf("maxLineNumbers : %d\n", rules.maxLineNumbers);
+    printf("maxFileLineNumbers : %d\n", rules.maxFileLineNumbers);
+    printf("noTrailingSpaces : %d\n", rules.noTrailingSpaces);
+    printf("noMultiDeclaration : %d\n", rules.noMultiDeclaration);
+    printf("unusedVariable : %d\n", rules.unusedVariable);
+    printf("undeclaredVariable : %d\n", rules.undeclaredVariable);
+    printf("noPrototype : %d\n", rules.noPrototype);
+    printf("unusedFunction : %d\n", rules.unusedFunction);
+    printf("undeclaredFunction : %d\n", rules.undeclaredFunction);
+    printf("variableAssignmentType : %d\n", rules.variableAssignmentType);
+    printf("functionParametersType : %d\n", rules.functionParametersType);
+    printf("recursive : %d\n", rules.recursive);
+    displayList(extendMainNode);
+    displayList(excludeMainNode);
+
+}
+
 t_mode *initModeArray() {
 
     t_mode *keys;
@@ -180,33 +204,7 @@ int main(int ac, char **av) {
         keys[3].flag = 0;
         tmpNode = tmpNode->next;
     }
-    print_rules(tmpRulesList);
-    displayList(extendMainNode);
-    displayList(excludeMainNode);
-
-
-        
     fillRuleStuct(tmpRulesList, &rules);
-
-    printf("arrayBraketEol : %d\n", rules.arrayBraketEol);
-    printf("operatorsSpacing : %d\n", rules.operatorsSpacing);
-    printf("commaSpacing : %d\n", rules.commaSpacing);
-    printf("indent : %d\n", rules.indent);
-    printf("commentsHeader : %d\n", rules.commentsHeader);
-    printf("maxLineNumbers : %d\n", rules.maxLineNumbers);
-    printf("maxFileLineNumbers : %d\n", rules.maxFileLineNumbers);
-    printf("noTrailingSpaces : %d\n", rules.noTrailingSpaces);
-    printf("noMultiDeclaration : %d\n", rules.noMultiDeclaration);
-    printf("unusedVariable : %d\n", rules.unusedVariable);
-    printf("undeclaredVariable : %d\n", rules.undeclaredVariable);
-    printf("noPrototype : %d\n", rules.noPrototype);
-    printf("unusedFunction : %d\n", rules.unusedFunction);
-    printf("undeclaredFunction : %d\n", rules.undeclaredFunction);
-    printf("variableAssignmentType : %d\n", rules.variableAssignmentType);
-    printf("functionParametersType : %d\n", rules.functionParametersType);
-    printf("recursive : %d\n", rules.recursive);
-
-    printf("%d\n", isCFile("test.h") );
-
+    //print_final_rules(extendMainNode, excludeMainNode, rules);
     return (0);
 }

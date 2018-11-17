@@ -8,8 +8,8 @@
 - max-line-numbers = 20
 
 =excludedFiles
-AAAA
-BBBB
+AAAA.c
+BBBB.c
 
 =recursive
 false

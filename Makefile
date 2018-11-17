@@ -5,12 +5,13 @@ RM	 = rm -rf
 NAME	 = Linter
 
 
-CFLAGS	 +=  -IInclude -g3
+CFLAGS	 +=  -IInclude  -g3
 LDFLAGS  = -Werror -W -Wall 
 
 SRC	 =  Src/main.c \
-		Src/keysFunction.c \
-		Src/extendLinkedList.c
+		Src/Part1/keysFunction.c \
+		Src/Part1/extendLinkedList.c \
+		Src/basicRules.c
 		
 
 OBJ	 = $(SRC:.c=.o)
