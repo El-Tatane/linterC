@@ -183,5 +183,30 @@ int main(int ac, char **av) {
     print_rules(tmpRulesList);
     displayList(extendMainNode);
     displayList(excludeMainNode);
+
+
+        
+    fillRuleStuct(tmpRulesList, &rules);
+
+    printf("arrayBraketEol : %d\n", rules.arrayBraketEol);
+    printf("operatorsSpacing : %d\n", rules.operatorsSpacing);
+    printf("commaSpacing : %d\n", rules.commaSpacing);
+    printf("indent : %d\n", rules.indent);
+    printf("commentsHeader : %d\n", rules.commentsHeader);
+    printf("maxLineNumbers : %d\n", rules.maxLineNumbers);
+    printf("maxFileLineNumbers : %d\n", rules.maxFileLineNumbers);
+    printf("noTrailingSpaces : %d\n", rules.noTrailingSpaces);
+    printf("noMultiDeclaration : %d\n", rules.noMultiDeclaration);
+    printf("unusedVariable : %d\n", rules.unusedVariable);
+    printf("undeclaredVariable : %d\n", rules.undeclaredVariable);
+    printf("noPrototype : %d\n", rules.noPrototype);
+    printf("unusedFunction : %d\n", rules.unusedFunction);
+    printf("undeclaredFunction : %d\n", rules.undeclaredFunction);
+    printf("variableAssignmentType : %d\n", rules.variableAssignmentType);
+    printf("functionParametersType : %d\n", rules.functionParametersType);
+    printf("recursive : %d\n", rules.recursive);
+
+    printf("%d\n", isCFile("test.h") );
+
     return (0);
 }
