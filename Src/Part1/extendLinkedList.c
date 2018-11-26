@@ -48,14 +48,22 @@ t_list *initLinkedList(t_list *mainNode, char *value)
     return (mainNode);
 }
 
-t_list *addNode(t_list *mainNode, char *value)
+t_list *addNode(t_list *mainNode, char *value, int flag)
 {
     t_list *newNode;
     t_list *location;
 
     location = mainNode;
-    if ((listExist(mainNode, value)) == 1)
-        return (NULL);
+    if (flag != 2) // fileContent
+    { 
+        if ((listExist(mainNode, value)) == 1)
+        {
+            if (flag == 1) // exclude
+                return (mainNode);
+            else // extend
+               return (NULL);
+        }
+    }
     if ((newNode = malloc(sizeof(t_list) * 1)) == NULL)
         return (NULL);
     if ((newNode->path = malloc(sizeof(char) * strlen(value) + 1)) == NULL)

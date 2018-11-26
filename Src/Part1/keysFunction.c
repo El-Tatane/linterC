@@ -12,7 +12,7 @@ int getExtend(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *mai
         return (0);
     if (isLconfFile(line) == -1)
         return (-1);
-    if ((mainExtendNode = addNode(mainExtendNode, line)) == NULL)
+    if ((mainExtendNode = addNode(mainExtendNode, line, 0)) == NULL)
         return (-1);
     return (0);
 }
@@ -98,7 +98,7 @@ int getExclude(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *ma
         return (0);
     if (isCFile(line) == -1)
         return (-1);
-    if ((mainExcludeNode = addNode(mainExcludeNode, line)) == NULL)
+    if ((mainExcludeNode = addNode(mainExcludeNode, line, 1)) == NULL)
         return (-1);
     return (0);
 }

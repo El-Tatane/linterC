@@ -11,7 +11,8 @@ LDFLAGS  = -Werror -W -Wall
 SRC	 =  Src/main.c \
 		Src/Part1/keysFunction.c \
 		Src/Part1/extendLinkedList.c \
-		Src/basicRules.c
+		Src/Part2/mainLinter.c \
+		Src/Part2/basicRules.c
 		
 
 OBJ	 = $(SRC:.c=.o)

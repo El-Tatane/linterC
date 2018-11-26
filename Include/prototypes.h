@@ -8,7 +8,7 @@
 unsigned int listExist(t_list *mainNode, char *str);
 unsigned int listLength(t_list *mainNode);
 t_list *initLinkedList(t_list *mainNode, char *value);
-t_list *addNode(t_list *mainNode, char *value);
+t_list *addNode(t_list *mainNode, char *value, int flag);
 void displayList(t_list *mainNode);
 
 //KeyFunctions.C
@@ -23,5 +23,9 @@ int isLconfFile(char* nameFile);
 
 //Main.C
 int getKey(char *line, t_mode *keys, int *currentKey);
+
+//Part2
+int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules);
+int readFileForLinter(FILE *fd, t_list *fileContent);
 
 #endif

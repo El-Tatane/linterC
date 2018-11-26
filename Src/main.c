@@ -206,5 +206,6 @@ int main(int ac, char **av) {
     }
     fillRuleStuct(tmpRulesList, &rules);
     //print_final_rules(extendMainNode, excludeMainNode, rules);
+    mainLinter(extendMainNode, excludeMainNode, rules);
     return (0);
 }
