@@ -24,8 +24,9 @@ int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
         {
             if ((fd = fopen(info->d_name, "r")) == NULL)
                 return (-1);
-            if ((readFileForLinter(fd, fileContent)) == -1)
+            if ((fileContent = readFileForLinter(fd, fileContent)) == NULL)
                 return (-1);
+            launchPart2(fileContent, rules);
             //utiliser la liste
             //free la liste
             if ((fclose(fd)) == -1)
@@ -35,8 +36,8 @@ int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
     return (0);
 }
 
-int readFileForLinter(FILE *fd, t_list *fileContent) {
-    char *buff;
+t_list *readFileForLinter(FILE *fd, t_list *fileContent) {
+    char *buff = NULL;
     size_t size;
     int flag;
     char finalBuff[4096];
@@ -57,20 +58,40 @@ int readFileForLinter(FILE *fd, t_list *fileContent) {
         if (flag == 0)
         {
             if ((fileContent = initLinkedList(fileContent, finalBuff)) == NULL)
-                return (-1);
+                return (NULL);
             flag = 1;
         }
         else
         {
             if ((fileContent = addNode(fileContent, finalBuff, 2)) == NULL)
-                return (-1);
+                return (NULL);
         }
-       printf("%s\n", finalBuff);
     }
-    return (0);
+    return (fileContent);
 }
 
-int launchPart2(t_list *fileContent, t_rules *rules)
+int launchPart2(t_list *fileContent, t_rules rules)
 {
+    int line = 0;
 
+    while (fileContent != NULL)
+    {
+        if (rules.arrayBracketEol == 1)
+            arrayBracketEol(fileContent->path, line);
+        //if (rules->operatorsSpacing == 1)
+           // operatorsSpacing(fileContent->path); // Gerer variable dans printf/scanf ex: %d
+        //if (rules->commaSpacing == 1)
+          //  commaSpacing(fileContent->path); // OK
+        //if (rules->commentsHeader == 1)
+          //  commentsHeader(fileContent->path);
+        /*if (rules->maxLineNumbers != 0)
+            maxLineNumbers(fileContent->path, rules->maxLineNumbers);
+        if (rules->maxFileLineNumbers != 0)
+            maxFileLineNumbers(fileContent->path, rules->maxFileLineNumbers); //OK
+        if (rules->noTrailingSpaces == 1)
+            noTrailingSpaces(fileContent->path); //OK
+        */
+        fileContent = fileContent->next;
+        line++;
+    }
 }

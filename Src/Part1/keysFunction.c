@@ -121,7 +121,7 @@ int fillRuleStuct(t_tmpRules *tmpRules, t_rules *rules){
     
     for (int i = 0; i < 17; i++)
     {
-        rules->arrayBraketEol = (strcmp( tmpRules[i].nameInFile,"array-bracket-eol") == 0) ? tmpRules[i].value : rules->arrayBraketEol ;
+        rules->arrayBracketEol = (strcmp( tmpRules[i].nameInFile,"array-Bracket-eol") == 0) ? tmpRules[i].value : rules->arrayBracketEol ;
         rules->operatorsSpacing = (strcmp( tmpRules[i].nameInFile,"operators-spacing") == 0) ? tmpRules[i].value : rules->operatorsSpacing ;
         rules->commaSpacing = (strcmp( tmpRules[i].nameInFile,"comma-spacing") == 0) ? tmpRules[i].value : rules->commaSpacing ;
         rules->indent = (strcmp( tmpRules[i].nameInFile,"indent") == 0) ? tmpRules[i].value : rules->indent ;

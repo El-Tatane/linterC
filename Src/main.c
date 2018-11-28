@@ -18,7 +18,7 @@ void print_rules(t_tmpRules *tmp) {
 
 void print_final_rules(t_list *extendMainNode, t_list *excludeMainNode, t_rules rules)
 {
-    printf("arrayBraketEol : %d\n", rules.arrayBraketEol);
+    printf("arrayBracketEol : %d\n", rules.arrayBracketEol);
     printf("operatorsSpacing : %d\n", rules.operatorsSpacing);
     printf("commaSpacing : %d\n", rules.commaSpacing);
     printf("indent : %d\n", rules.indent);
@@ -106,8 +106,8 @@ t_tmpRules *initTmpRulesArray() {
         idx++;
     }
 
-    strcpy(tmpRules[0].nameInFile, "array-bracket-eol");
-    strcpy(tmpRules[0].nameInStruct, "arrayBraketEol");
+    strcpy(tmpRules[0].nameInFile, "array-Bracket-eol");
+    strcpy(tmpRules[0].nameInStruct, "arrayBracketEol");
     strcpy(tmpRules[1].nameInFile, "operators-spacing");
     strcpy(tmpRules[1].nameInStruct, "operatorsSpacing");
     strcpy(tmpRules[2].nameInFile, "comma-spacing");

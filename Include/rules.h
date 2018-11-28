@@ -12,7 +12,7 @@ typedef struct s_tmpRule
 
 typedef struct s_rules
 { 
-    int arrayBraketEol;
+    int arrayBracketEol;
     int operatorsSpacing;
     int commaSpacing;
     int indent;

@@ -3,63 +3,16 @@
 #include <string.h>
 
 
-void arrayBracketEol(char path[]){
+void arrayBracketEol(char *path, int row){
+    int column;
+    char *pos;
 
-    FILE* fichier = fopen(path, "r");
-    char cara = 0;
-    int ligne = 1;
-    int colonne = 1;
-    int longueur = 0;
-    int i = 0;
-
-    if(fichier != NULL){
-
-        // init du nombre de caractere dans le fichier
-        while(cara != EOF){
-            cara = fgetc(fichier);
-            longueur++;
-        }
-
-        rewind(fichier);
-        cara = 0;
-        char T[longueur];
-
-        // init du tableau T avec les valeur du fichier
-        while(cara != EOF){
-            i++;
-            cara = fgetc(fichier);
-
-            T[i] = cara;
-        }
-
-        rewind(fichier);
-        cara = 0;
-        i = 0;
-
-        // verification de la regle
-        while(cara != EOF){
-            i++;
-            colonne++;
-            cara = fgetc(fichier);
-
-            if(cara == '\n'){
-                ligne++;
-                colonne = 0;
-            }
-
-            if(T[i] == '{'){
-                if (T[i - 1] == '\n' && T[i + 1] == '\n'){
-                    printf("array-bracket-eol: Dans le fichier %s l'accolade doit se trouver en fin de ligne.\nErreur ligne: %d, colonne: %d;\n\n", path, ligne, colonne);
-                }
-            }
-        }
-
-        fclose(fichier);
-    }
-
-    else {
-        printf("Erreur lors de l'ouverture \n");
-    }
+    if ((pos = strchr(path, '{')) == NULL)
+        return;
+    column = strlen(path);
+    if (*(pos + sizeof(char)) == '\0')
+        printf("array-Bracket-eol: Dans le fichier %s l'accolade doit se trouver en fin de ligne.\nErreur ligne: %d, colonne: %d;\n\n", path, row, column);
+    return;
 }
 
 void operatorsSpacing(char path[]){

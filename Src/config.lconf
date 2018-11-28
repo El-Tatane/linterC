@@ -2,7 +2,7 @@
 
 
 =rules
-- array-bracket-eol = on
+- array-Bracket-eol = on
 - operators-spacing = off
 - comments-header = on
 - max-line-numbers = 20
