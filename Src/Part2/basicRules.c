@@ -1,135 +1,95 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "prototypes.h"
 
 
-void arrayBracketEol(char *path, int row){
+void arrayBracketEol(char *line, int row){
     int column;
     char *pos;
+    int  i = 0;
 
-    if ((pos = strchr(path, '{')) == NULL)
+    if ((pos = strchr(line, '{')) == NULL)
         return;
-    column = strlen(path);
+    while (line[i] != '{')
+    {
+        if (line[i] != ' ' && line[i] != '\t')
+            return;
+        i++;
+    }
+    column = strlen(line);
     if (*(pos + sizeof(char)) == '\0')
-        printf("array-Bracket-eol: Dans le fichier %s l'accolade doit se trouver en fin de ligne.\nErreur ligne: %d, colonne: %d;\n\n", path, row, column);
+        displayErrorMessage("arrayBracketEol", row, column);
     return;
 }
 
-void operatorsSpacing(char path[]){
+int ifLongOperator(char *line)
+{
+    char longOperator[][2] = {
+        "+=", "-=","/=", "%=",  "==",  "=!",  "||",  ">>",  "<<", "&&"
+    };
+    int len;
 
-    FILE* fichier = fopen(path, "r");
-    char cara = 0;
-    int ligne = 1;
-    int colonne = 1;
-    int longueur = 0;
-    int i = 0;
+    if (strlen(line) < 1)
+        return (0);
 
-    if(fichier != NULL){
-
-        // init du nombre de caractere dans le fichier
-        while(cara != EOF){
-            cara = fgetc(fichier);
-            longueur++;
-        }
-
-        rewind(fichier);
-        cara = 0;
-        char T[longueur];
-
-        // init du tableau T avec les valeur du fichier
-        while(cara != EOF){
-            i++;
-            cara = fgetc(fichier);
-
-            T[i] = cara;
-        }
-
-        rewind(fichier);
-        cara = 0;
-        i = 0;
-
-        // verification de la regle
-        while(cara != EOF){
-            i++;
-            colonne++;
-            cara = fgetc(fichier);
-
-            if(cara == '\n'){
-                ligne++;
-                colonne = 0;
-            }
-
-            // Test '='
-            if(T[i] == '=' && T[i + 1] != '=' && T[i - 1] != '=' && T[i + 1] != '\'' && T[i - 1] != '\''){
-                if(T[i - 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace avant le '='.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-                else if(T[i + 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace apres le '='.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-            }
-            // Test '=='
-            else if(T[i] == '=' && T[i + 1] == '=' && T[i + 1] != '\'' && T[i - 1] != '\''){
-                if(T[i - 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace avant le '=='.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-                else if(T[i + 2] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace apres le '=='.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-            }
-            // Test '+'
-            else if(T[i] == '+' && T[i + 1] != '+' && T[i - 1] != '+' && T[i + 1] != '\'' && T[i - 1] != '\''){
-                if(T[i - 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace avant le '+'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-                else if(T[i + 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace apres le '+'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-            }
-            // Test '-'
-            else if(T[i] == '-' && T[i + 1] != '-' && T[i - 1] != '-' && T[i + 1] != '\'' && T[i - 1] != '\''){
-                if(T[i - 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace avant le '-'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-                else if(T[i + 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace apres le '-'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-            }
-            // Test '*'
-            else if(T[i] == '*' && T[i + 1] != '\'' && T[i - 1] != '\''){
-                if(T[i - 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace avant le '*'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-                else if(T[i + 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace apres le '*'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-            }
-            // Test '/'
-            else if(T[i] == '/' && T[i + 1] != '/' && T[i - 1] != '/' && T[i + 1] != '\'' && T[i - 1] != '\''){
-                if(T[i - 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace avant le '/'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-                else if(T[i + 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace apres le '/'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-            }
-            // Test '%'
-            else if(T[i] == '%' && T[i + 1] != '\'' && T[i - 1] != '\''){
-                if(T[i - 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace avant le '%%'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-                else if(T[i + 1] != ' '){
-                    printf("operators-spacing: Dans le fichier %s il doit y avoir un espace apres le '%%'.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-            }
-        }
-
-        fclose(fichier);
+    len = 10;    
+    for (int i = 0; i < len; i++)
+    {
+        if (line[0] == longOperator[i][0] && line[1] == longOperator[i][1])
+            return (1);
     }
+    return (0);
+}
 
-    else {
-        printf("Erreur lors de l'ouverture \n");
+
+int ifShortOperator(char *line)
+{
+    char  shortOperator[] = {
+        '=', '*', '+', '-', '%','/','&', '<', '>', '|'
+    };
+
+        int len;
+
+    if (strlen(line) < 1)
+        return (0);
+
+    len = strlen(shortOperator);    
+    for (int i = 0; i < len; i++)
+    {
+        if (line[0] == shortOperator[i])
+            return (1);
     }
+    return (0);
+}
+
+void operatorsSpacing(char *path, int row)
+{
+    int i = 1;
+    if ((ifShortOperator(&path[0])) == 1)
+    {
+        //display
+        //display msg
+    }
+    while (path[i] != '\0')
+    {
+        if ((ifLongOperator(&path[i])) == 1)
+        {
+            if (path[i - 1] != ' ' && path[i + 2]  != ' ')
+            {
+                //msg
+            }
+            i++;
+        }
+        else if ((ifShortOperator(&path[i])) == 1)
+        {
+            if (path[i - 1] != ' ' && path[i + 1]  != ' ')
+             {
+                //msg
+             }
+        }
+        i++;
+    }   
 }
 
 void commaSpacing(char path[]){

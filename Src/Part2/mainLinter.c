@@ -6,6 +6,13 @@
 #include "rules.h"
 #include "list.h"
 
+char currentFile[2048];
+
+void displayErrorMessage(char *rule, unsigned int row, unsigned int column)
+{
+    printf("Error on %s , rule : %s failed at line %d column %d \n", currentFile, rule, row, column);
+}
+
 int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
 {
     FILE *fd;
@@ -13,7 +20,7 @@ int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
     struct dirent *info;
     t_list *fileContent;
     //OPENDIR .
-    if ((dir = opendir(".")) == NULL)
+    if ((dir = opendir("./test")) == NULL)
         return (-1);
     
     while ((info = readdir(dir)) != NULL)
@@ -24,6 +31,7 @@ int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
         {
             if ((fd = fopen(info->d_name, "r")) == NULL)
                 return (-1);
+            strcpy(currentFile, info->d_name);
             if ((fileContent = readFileForLinter(fd, fileContent)) == NULL)
                 return (-1);
             launchPart2(fileContent, rules);

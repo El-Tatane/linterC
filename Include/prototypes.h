@@ -4,6 +4,7 @@
 #include "rules.h"
 #include "list.h"
 
+extern char currentFile[2048];
 //extendLinkedList.C
 unsigned int listExist(t_list *mainNode, char *str);
 unsigned int listLength(t_list *mainNode);
@@ -25,6 +26,9 @@ int isLconfFile(char* nameFile);
 int getKey(char *line, t_mode *keys, int *currentKey);
 
 //Part2
+
+
+void displayErrorMessage(char *rule, unsigned int row, unsigned int column);
 int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules);
 t_list *readFileForLinter(FILE *fd, t_list *fileContent);
 int launchPart2(t_list *fileContent, t_rules rules);
