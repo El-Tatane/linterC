@@ -29,7 +29,7 @@ int getKey(char *line, t_mode *keys, int *currentKey);
 
 
 void displayErrorMessage(char *rule, unsigned int row, unsigned int column);
-int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules);
+int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules, char *path);
 t_list *readFileForLinter(FILE *fd, t_list *fileContent);
 int launchSingleLineRules(t_list *fileContent, t_rules rules);
 

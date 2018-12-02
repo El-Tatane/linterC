@@ -16,25 +16,43 @@ void displayErrorMessage(char *rule, unsigned int row, unsigned int column)
         printf("Error on %s , rule : %s failed at line %d column %d \n", currentFile, rule, row, column);
 }
 
-int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
+int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules, char *path)
 {
     FILE *fd;
     DIR *dir;
     struct dirent *info;
     t_list *fileContent;
+    char editPath[2048];
+    
+    strcpy(editPath, path);
     //OPENDIR .
-    if ((dir = opendir(".")) == NULL)
+    if ((dir = opendir(path)) == NULL)
         return (-1);
     
+    printf("%s\n", path);
     while ((info = readdir(dir)) != NULL)
-    {
-        printf("%s\n", info->d_name);
-        //if (//Dossier);
+    {   
+        if (info->d_type == 4 && rules.recursive == 1)
+        {
+            if (info->d_name[0] != '.')
+            {
+                char dirPath[2048];
+                strcpy(dirPath, strcat(editPath, info->d_name));
+                printf("%s\n", dirPath);
+                if ((mainLinter(extendNode, excludeNode, rules, dirPath)) == -1)
+                    return (-1);
+            }
+        }
         if (isCFile(info->d_name) != -1 && listExist(excludeNode, info->d_name) == 0)
         {
-            if ((fd = fopen(info->d_name, "r")) == NULL)
+            char filePath[2048];
+
+            filePath[0] = '\0';
+            strcpy(filePath, strcat(editPath, info->d_name));
                 return (-1);
-            strcpy(currentFile, info->d_name);
+            if ((fd = fopen(filePath, "r")) == NULL)
+                return (-1);
+            strcpy(currentFile, filePath);
             if ((fileContent = readFileForLinter(fd, fileContent)) == NULL)
                 return (-1);
             launchSingleLineRules(fileContent, rules);
