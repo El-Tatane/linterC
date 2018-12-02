@@ -35,12 +35,14 @@ int launchPart2(t_list *fileContent, t_rules rules);
 
 //basicRules
 void arrayBracketEol(char *line, int rowNb);
-/*
 void operatorsSpacing(char *line, int rowNb);
 void commaSpacing(char *line, int rowNb);
-void indent(char *line);
-void commentsHeader(char *line);
-void maxLineNumbers(char *line, int );
+//void indent(char *line);
+
+//void commentsHeader(char *line);
+
+void maxLineNumbers(char *line, int rowNb, int max);
+/*
 void maxFileLineNumbers(char *line);
 void noTrailingSpaces(char *line);
 */

@@ -18,8 +18,8 @@ void arrayBracketEol(char *line, int row){
         i++;
     }
     column = strlen(line);
-    if (*(pos + sizeof(char)) == '\0')
-        displayErrorMessage("arrayBracketEol", row, column);
+    if (*(pos + sizeof(char)) == '\0' || *(pos + sizeof(char)) == '\r')
+        displayErrorMessage("arrayBracketEol", row + 1, column);
     return;
 }
 
@@ -37,23 +37,47 @@ int ifLongOperator(char *line)
     for (int i = 0; i < len; i++)
     {
         if (line[0] == longOperator[i][0] && line[1] == longOperator[i][1])
+        {
             return (1);
+        }
     }
     return (0);
 }
 
+int ifParticularCase(char *line)
+{
+    char particularOperator[][2] = {
+        "++",  "--"
+    };
+    int len;
+
+    if (strlen(line) < 1)
+        return (0);
+
+    if ((line[0] == '/' && line[1] == '/')
+        || (line[0] == '*' && line[1] == '/')
+        || (line[0] == '/' && line[1] == '*'))
+        return (2);   
+
+    len = 2; 
+    for (int i = 0; i < len; i++)
+    {
+        if (line[0] == particularOperator[i][0] && line[1] == particularOperator[i][1])
+            return (1);
+    }
+    return (0);
+}
 
 int ifShortOperator(char *line)
 {
     char  shortOperator[] = {
         '=', '*', '+', '-', '%','/','&', '<', '>', '|'
     };
-
-        int len;
-
+    int len;
+    
+    //printf("%s\n", line);
     if (strlen(line) < 1)
         return (0);
-
     len = strlen(shortOperator);    
     for (int i = 0; i < len; i++)
     {
@@ -66,90 +90,58 @@ int ifShortOperator(char *line)
 void operatorsSpacing(char *path, int row)
 {
     int i = 1;
+    int nb;
+    
+    nb = ifParticularCase(&path[0]);
+    if (nb == 1)
+        i++;
+    else if (nb == 2)
+        return;
     if ((ifShortOperator(&path[0])) == 1)
-    {
-        //display
-        //display msg
-    }
+        displayErrorMessage("operatorsSpacing", row + 1, 0);
     while (path[i] != '\0')
     {
-        if ((ifLongOperator(&path[i])) == 1)
+        nb = ifParticularCase(&path[i]);
+        if (nb == 1)
+            i++;
+        else if (nb == 2)
+            return;
+        else if ((ifLongOperator(&path[i])) == 1)
         {
-            if (path[i - 1] != ' ' && path[i + 2]  != ' ')
-            {
-                //msg
-            }
+            if (path[i - 1] != ' ' || path[i + 2]  != ' ')
+                displayErrorMessage("operatorsSpacing", row + 1, i);
             i++;
         }
         else if ((ifShortOperator(&path[i])) == 1)
         {
-            if (path[i - 1] != ' ' && path[i + 1]  != ' ')
-             {
-                //msg
-             }
+            if (path[i - 1] != ' ' || path[i + 1]  != ' ')
+                displayErrorMessage("operatorsSpacing", row + 1, i);
         }
         i++;
     }   
 }
 
-void commaSpacing(char path[]){
+void maxLineNumbers()
+{
+    
+}
 
-    FILE* fichier = fopen(path, "r");
-    char cara = 0;
-    int ligne = 1;
-    int colonne = 1;
-    int longueur = 0;
-    int i = 0;
+void commaSpacing(char *line, int row)
+{
+    int column;
+    char pos;
+    int i;
 
-    if(fichier != NULL){
-
-        // init du nombre de caractere dans le fichier
-        while(cara != EOF){
-            cara = fgetc(fichier);
-            longueur++;
-        }
-
-        rewind(fichier);
-        cara = 0;
-        char T[longueur];
-
-        // init du tableau T avec les valeur du fichier
-        while(cara != EOF){
-            i++;
-            cara = fgetc(fichier);
-
-            T[i] = cara;
-        }
-
-        rewind(fichier);
-        cara = 0;
-        i = 0;
-
-        // verification de la regle
-        while(cara != EOF){
-            i++;
-            colonne++;
-            cara = fgetc(fichier);
-
-            if(cara == '\n'){
-                ligne++;
-                colonne = 0;
-            }
-
-            if(T[i] == ',' && T[i + 1] != '\"' && T[i + 1] != '\''){
-                if(T[i + 1] != ' '){
-                    printf("comma-spacing: Dans le fichier %s il doit y avoir un espace a droite de la virgule.\nErreur ligne: %d, colonne: %d\n\n", path, ligne, colonne);
-                }
-            }
-        }
-
-        fclose(fichier);
-    }
-
-    else {
-        printf("Erreur lors de l'ouverture \n");
+    i = 0;
+    while (line[i] != '\0')
+    {
+        if (line[i] == ',' && line[i + 1] != ' ')
+            displayErrorMessage("commaSpacing", row + 1, i);
+        i++;
     }
 }
+
+//void indent(char *line, int row)
 
 void commentsHeader(char path[]){
 
@@ -195,32 +187,6 @@ void commentsHeader(char path[]){
             if(T[i] == '/' && T[i + 1] == '*'){
                 printf("comments-header : Dans le fichier %s il y a la presence d'un commentaire multi-ligne a la ligne %d\n\n", path, ligne);
             }
-        }
-
-        fclose(fichier);
-    }
-
-    else {
-        printf("Erreur lors de l'ouverture \n");
-    }
-}
-
-void maxLineNumbers(char path[], int n){
-
-    FILE* fichier = fopen(path, "r");
-    char cara = 0;
-    int longueur = 0;
-
-    if(fichier != NULL){
-
-        // init du nombre de caractere dans le fichier
-        while(cara != EOF){
-            cara = fgetc(fichier);
-            longueur++;
-        }
-
-        if(longueur > n){
-            printf("max-line-numbers : Le fichier %s a depasser le nombre de caractere max demander, %d > %d\n", path, longueur, n);
         }
 
         fclose(fichier);

@@ -9,12 +9,12 @@ int main(int argc, char const *argv[])
 
 	while(bonjour == 1)
 	{
-		printf("pas ok\n");
+			printf("pas ok\n");
 	}
 
 	do
 	{
-		printf("pas ok\n");
+			printf("pas ok\n");
 	}
 	while(bonjour == 3);
 

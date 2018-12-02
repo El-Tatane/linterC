@@ -20,12 +20,12 @@ int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
     struct dirent *info;
     t_list *fileContent;
     //OPENDIR .
-    if ((dir = opendir("./test")) == NULL)
+    if ((dir = opendir(".")) == NULL)
         return (-1);
     
     while ((info = readdir(dir)) != NULL)
     {
-        //printf("%s\n", info->d_name);
+        printf("%s\n", info->d_name);
         //if (//Dossier);
         if (isCFile(info->d_name) != -1 && listExist(excludeNode, info->d_name) == 0)
         {
@@ -80,16 +80,18 @@ t_list *readFileForLinter(FILE *fd, t_list *fileContent) {
 
 int launchPart2(t_list *fileContent, t_rules rules)
 {
-    int line = 0;
+    int lineNb = 0;
 
     while (fileContent != NULL)
     {
         if (rules.arrayBracketEol == 1)
-            arrayBracketEol(fileContent->path, line);
-        //if (rules->operatorsSpacing == 1)
-           // operatorsSpacing(fileContent->path); // Gerer variable dans printf/scanf ex: %d
-        //if (rules->commaSpacing == 1)
-          //  commaSpacing(fileContent->path); // OK
+            arrayBracketEol(fileContent->path, lineNb);
+        if (rules.operatorsSpacing == 1)
+            operatorsSpacing(fileContent->path, lineNb); // Gerer variable dans printf/scanf ex: %d
+        if (rules.commaSpacing == 1)
+            commaSpacing(fileContent->path, lineNb);
+        if (rules.maxLineNumbers != 0)
+            maxLineNumbers(fileContent->path, lineNb rules->maxLineNumbers);
         //if (rules->commentsHeader == 1)
           //  commentsHeader(fileContent->path);
         /*if (rules->maxLineNumbers != 0)
@@ -100,6 +102,6 @@ int launchPart2(t_list *fileContent, t_rules rules)
             noTrailingSpaces(fileContent->path); //OK
         */
         fileContent = fileContent->next;
-        line++;
+        lineNb++;
     }
 }
