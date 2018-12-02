@@ -31,20 +31,23 @@ int getKey(char *line, t_mode *keys, int *currentKey);
 void displayErrorMessage(char *rule, unsigned int row, unsigned int column);
 int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules);
 t_list *readFileForLinter(FILE *fd, t_list *fileContent);
-int launchPart2(t_list *fileContent, t_rules rules);
+int launchSingleLineRules(t_list *fileContent, t_rules rules);
 
 //basicRules
 void arrayBracketEol(char *line, int rowNb);
 void operatorsSpacing(char *line, int rowNb);
 void commaSpacing(char *line, int rowNb);
 //void indent(char *line);
+void maxLineNumbers(char *line, int rowNb, int max);
+void noTrailingSpaces(char *line, int rowNb);
+void noMultiDeclaration(char *line, int rowNb);
 
 //void commentsHeader(char *line);
 
-void maxLineNumbers(char *line, int rowNb, int max);
-/*
-void maxFileLineNumbers(char *line);
-void noTrailingSpaces(char *line);
-*/
+//void maxLineNumbers(char *line, int rowNb, int max);
+
+//void maxFileLineNumbers(char *line);
+
+//Part3
 
 #endif

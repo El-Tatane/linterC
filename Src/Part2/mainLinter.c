@@ -10,7 +10,10 @@ char currentFile[2048];
 
 void displayErrorMessage(char *rule, unsigned int row, unsigned int column)
 {
-    printf("Error on %s , rule : %s failed at line %d column %d \n", currentFile, rule, row, column);
+    if (column == -1)
+         printf("Error on %s , rule : %s failed at line %d \n", currentFile, rule, row);
+     else
+        printf("Error on %s , rule : %s failed at line %d column %d \n", currentFile, rule, row, column);
 }
 
 int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
@@ -34,7 +37,7 @@ int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules)
             strcpy(currentFile, info->d_name);
             if ((fileContent = readFileForLinter(fd, fileContent)) == NULL)
                 return (-1);
-            launchPart2(fileContent, rules);
+            launchSingleLineRules(fileContent, rules);
             //utiliser la liste
             //free la liste
             if ((fclose(fd)) == -1)
@@ -78,7 +81,7 @@ t_list *readFileForLinter(FILE *fd, t_list *fileContent) {
     return (fileContent);
 }
 
-int launchPart2(t_list *fileContent, t_rules rules)
+int launchSingleLineRules(t_list *fileContent, t_rules rules)
 {
     int lineNb = 0;
 
@@ -91,16 +94,18 @@ int launchPart2(t_list *fileContent, t_rules rules)
         if (rules.commaSpacing == 1)
             commaSpacing(fileContent->path, lineNb);
         if (rules.maxLineNumbers != 0)
-            maxLineNumbers(fileContent->path, lineNb rules->maxLineNumbers);
+            maxLineNumbers(fileContent->path, lineNb, rules.maxLineNumbers);
+        if (rules.noMultiDeclaration == 1)
+            noMultiDeclaration(fileContent->path, lineNb);
         //if (rules->commentsHeader == 1)
           //  commentsHeader(fileContent->path);
         /*if (rules->maxLineNumbers != 0)
             maxLineNumbers(fileContent->path, rules->maxLineNumbers);
         if (rules->maxFileLineNumbers != 0)
             maxFileLineNumbers(fileContent->path, rules->maxFileLineNumbers); //OK
-        if (rules->noTrailingSpaces == 1)
-            noTrailingSpaces(fileContent->path); //OK
         */
+        if (rules.noTrailingSpaces == 1)
+            noTrailingSpaces(fileContent->path, lineNb);
         fileContent = fileContent->next;
         lineNb++;
     }
