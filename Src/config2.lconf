@@ -1,10 +1,11 @@
 =extends
 =rules
-- array-Bracket-eol = on
+- array-Bracket-eol = off
 - operators-spacing = off
 - comments-header = on
-- max-line-numbers = 66
-- no-trailing-spaces = on
+- max-line-numbers = off
+- no-trailing-spaces = off
+- max-file-line-numbers = off
 
 =excludedFiles
 a.c

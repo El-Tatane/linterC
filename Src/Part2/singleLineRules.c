@@ -158,7 +158,16 @@ void commaSpacing(char *line, int rowNb)
 
 void noMultiDeclaration(char *line, int rowNb)
 {
-    char types[][10] = {"int", "char", "double", "float", "short", "long", "bool", "void"};
+    char types[][10] = {
+        "int",
+        "char",
+        "double",
+        "float",
+        "short",
+        "long",
+        "bool",
+        "void"
+    };
     int find;
     int n;
     unsigned int count;

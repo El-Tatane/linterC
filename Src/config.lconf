@@ -1,5 +1,5 @@
 =extends
-
+Src/config2.lconf
 
 =rules
 - array-Bracket-eol = off
@@ -8,7 +8,7 @@
 - comments-header = off
 - max-line-numbers = off
 - no-trailing-spaces = off
-- no-multi-declaration = on
+- no-multi-declaration = off
 
 =excludedFiles
 AAAA.c

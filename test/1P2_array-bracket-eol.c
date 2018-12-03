@@ -1,4 +1,5 @@
 //regle1 array-bracket-eol
+//
 
 int main(int argc, char const *argv[])
 {

@@ -154,7 +154,9 @@ int getDataFromFile(char *filepath, t_mode *keys, t_tmpRules *tmpRulesList, t_li
     size = 256;
 
     if ((fd = fopen(filepath, "r")) == NULL)
+    {
         return (-1);  
+    }
     if ((buff = malloc(sizeof(char) * 256)) == NULL)
         return (-1);
     while (getline(&buff, &size, fd) != -1)
@@ -206,6 +208,6 @@ int main(int ac, char **av) {
     }
     fillRuleStuct(tmpRulesList, &rules);
     //print_final_rules(extendMainNode, excludeMainNode, rules);
-    mainLinter(extendMainNode, excludeMainNode, rules, "./");
+    mainLinter(extendMainNode, excludeMainNode, rules, ".");
     return (0);
 }
