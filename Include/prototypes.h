@@ -3,8 +3,10 @@
 
 #include "rules.h"
 #include "list.h"
+#include "scopeList.h"
 
 extern char currentFile[2048];
+
 //extendLinkedList.C
 unsigned int listExist(t_list *mainNode, char *str);
 unsigned int listLength(t_list *mainNode);
@@ -49,5 +51,9 @@ void maxFileLineNumbers(t_list *fileContent, int max);
 void commentsHeader(t_list *fileContent);
 
 //Part3
+
+//createScopeList
+
+t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList);
 
 #endif

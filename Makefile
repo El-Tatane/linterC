@@ -13,7 +13,8 @@ SRC	 =  Src/main.c \
 		Src/Part1/extendLinkedList.c \
 		Src/Part2/mainLinter.c \
 		Src/Part2/singleLineRules.c \
-		Src/Part2/multiLinesRules.c
+		Src/Part2/multiLinesRules.c \
+		Src/createScopeList.c
 		
 
 OBJ	 = $(SRC:.c=.o)

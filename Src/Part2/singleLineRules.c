@@ -199,4 +199,3 @@ void noMultiDeclaration(char *line, int rowNb)
     if (count >= 2)
         displayErrorMessage("noMultiDeclaration", rowNb + 1, -1);
 }
-//void indent(char *line, int row)
