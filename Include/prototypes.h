@@ -55,4 +55,12 @@ void commentsHeader(t_list *fileContent);
 
 t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList);
 
+//createScopeList
+t_scopeList *initScopeList(t_scopeList *mainScopeNode, char *funcName, char *type, t_var *vars);
+
+//tvarList.c
+t_var *initVarList(t_var *mainNode, char *type, char *name, int isParam);
+t_var *addVarNode(t_var *mainNode, char *type, char *name, int isParam);
+void displayVarList(t_var *mainNode);
+
 #endif

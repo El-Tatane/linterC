@@ -1,6 +1,17 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "prototypes.h"
 #include "list.h"
+
+void displayVarList(t_var *mainNode)
+{
+    while (mainNode != NULL)
+    {
+        printf("type : %s name : %s flag : %d\n", mainNode->type, mainNode->name, mainNode->isParam);
+        mainNode = mainNode->next;
+    }
+}
 
 t_var *initVarList(t_var *mainNode, char *type, char *name, int isParam)
 {

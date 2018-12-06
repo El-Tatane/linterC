@@ -1,6 +1,16 @@
 // regle2 function-parameters-type
 
 
+void fonctin()
+{
+
+}
+
+void fonctian(int          * * ** * * * * * **a)
+{
+
+}
+
 void fonction(int a, char b, int* c, char *d, char** e){
 
 	puts("ok");

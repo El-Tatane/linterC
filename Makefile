@@ -14,7 +14,9 @@ SRC	 =  Src/main.c \
 		Src/Part2/mainLinter.c \
 		Src/Part2/singleLineRules.c \
 		Src/Part2/multiLinesRules.c \
-		Src/createScopeList.c
+		Src/createScopeList.c \
+		Src/scopeList.c \
+		Src/tvarList.c
 		
 
 OBJ	 = $(SRC:.c=.o)
