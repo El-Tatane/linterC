@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include "prototypes.h"
-#include "scopeList.h"
+#include "list.h"
 
 t_scopeList addVarAtPosition(t_scopeList mainScopeNode, int N, int D, t_var new_var)
 {
 
 }
 
-t_scopeList *initScopeList(t_scopeList *mainScopeNode, char *funcName, char *type, t_var *new_vars)
+t_scopeList *initScopeList(t_scopeList *mainScopeNode, char *funcName, char *type, t_var *vars)
 {
     if ((mainScopeNode = malloc(sizeof(t_scopeList) * 1)) == NULL)
         return (NULL);
@@ -20,5 +20,7 @@ t_scopeList *initScopeList(t_scopeList *mainScopeNode, char *funcName, char *typ
     strcpy(mainScopeNode->funcName, funcName);
     strcpy(mainScopeNode->returnType, type);
 
+// ARG
+    mainScopeNode->varList = vars;
     return (mainScopeNode);
 }

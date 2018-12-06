@@ -4,7 +4,6 @@
 #include <dirent.h>
 #include "prototypes.h"
 #include "rules.h"
-#include "scopeList.h"
 #include "list.h"
 
 char currentFile[2048];
@@ -113,7 +112,7 @@ t_list *readFileForLinter(FILE *fd, t_list *fileContent)
 
 void launchMultiLinesRules(t_list *fileContent, t_rules rules)
 {
-    t_scopeList *mainScopeNode;
+    t_scopeList *mainScopeNode = NULL;
     
     mainScopeNode = createScopeList(fileContent, mainScopeNode); // check null valeur de ret
     if (rules.maxFileLineNumbers != 0)

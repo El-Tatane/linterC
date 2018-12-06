@@ -3,7 +3,6 @@
 
 #include "rules.h"
 #include "list.h"
-#include "scopeList.h"
 
 extern char currentFile[2048];
 
