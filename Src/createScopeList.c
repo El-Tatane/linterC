@@ -38,17 +38,19 @@ char  *getLastPart(char *str, char c)
     int n;
 
     n = 0;
-    i = strlen(str);
-    while (str[i] != c)
-        i--;   
-    if ((ret = malloc(sizeof(char) * i + 1)) == NULL)
+    if ((strchr(str, c)) == NULL)
         return (NULL);
     i = strlen(str);
     while (str[i] != c)
+        i--;
+    if ((ret = malloc(sizeof(char) * (strlen(str)))) == NULL)
+        return (NULL);
+    
+    while (str[i] != '\0')
     {
         ret[n] = str[i];
         n++;
-        i--;
+        i++;
     }
     ret[n] = '\0';
     return (ret);
@@ -74,12 +76,39 @@ char  *getFirstPart(char *str, char c, int *nbWord)
     return (ret);
 }
 
+char  *getLastWord(char *str, int pos)
+{
+    int tmp;
+    char *ret;
+    int i = 0;
+
+    tmp = pos;
+    while (tmp > 0)
+    {
+        if (str[tmp] == ' ' || str[tmp] == '\t')
+            break;
+        tmp--;
+    }
+    if ((ret = malloc(sizeof(char) * (pos - tmp) + 1)) == NULL)
+        return (NULL);
+
+    tmp++;
+    while (tmp < pos)
+    {
+        ret[i] = str[tmp];
+        i++;
+        tmp++;
+    }
+    ret[i] = '\0';
+   return (ret);
+}
+
 t_var *getOneParam(t_var *mainNode, char *part)
 {
     char *noSpace;
     char *tmpType;
 
-    if (strchr(part, '*') != NULL)
+    if ((strchr(part, '*')) != NULL)
     {
         if ((noSpace = removeSpaces(part)) == NULL)
             return (NULL);
@@ -108,23 +137,37 @@ t_var *getOneParam(t_var *mainNode, char *part)
     {
         int i;
         int n;
+        int j;
         char *type;
         char *name;
 
-        i = 0;
-        while (part[i] != '\0')
-        {
-            if (!(part[i] == ' ' || part[i] == '\t'))
-                type = getFirstPart(part, ' ', &n);
-            i++;
-        }
         i = strlen(part);
         while (i > 0)
         {
-            if (!(part[i] == ' ' || part[i] == '\t'))
-                name = getLastPart(part, ' ');
+            if ((part[i] != ' ' && part[i] != '\t'))
+            {
+                if ((name = getLastWord(part, i)) == NULL)
+                    return (NULL);
+                break;
+            }
             i--;
         }
+        n = 0;
+        j = 0;
+        int len = strlen(part) - ((strlen(name) + strlen(part + i)));
+        if ((type = malloc(sizeof(char) * (len + 1))) == NULL)
+            return (NULL);
+        while (j < len)
+        {
+            if ((part[j] != ' ' && part[j] != '\t'))
+            {
+                type[n] = part[j];
+                n++;
+            }
+            j++;
+        }
+        type[n] = '\0';
+
         
         if (mainNode == NULL)
         {
@@ -144,8 +187,7 @@ t_var *getFuncParams(char *line)
     int nb  = 0;
     char part[2048];
     t_var *newVarList = NULL;
-    char *tmpType;
-    char *tmpName;
+    char *tmpPart;
 
 
     strcpy(part, getFirstPart(strchr(line, '(') + 1, ')', &nb));
@@ -161,26 +203,18 @@ t_var *getFuncParams(char *line)
         if ((newVarList = getOneParam(newVarList, part)) == NULL)
             return (NULL);
     }
-
-    // if (nb == 2)
-    // {
-    //     if ((tmpType = strdup(strtok(part, " "))) == NULL)
-    //         return (NULL);
-    //     if ((tmpName = strdup(strtok(NULL, " "))) == NULL)
-    //         return (NULL);
-    //     if (newVarList == NULL)
-    //     {
-    //         if ((newVarList = initVarList(newVarList, tmpType, tmpName, 1)) == NULL)
-    //             return (NULL);
-    //     }
-    //     else
-    //     {
-    //         if ((newVarList = addVarNode(newVarList, tmpType, tmpName, 1)) == NULL)
-    //             return (NULL);
-    //     }
-    // }
-
-    displayVarList(newVarList);
+    else if (strchr(part, ',') != NULL && nb != 0)
+    {
+        if ((tmpPart = strtok(part, ",")) == NULL)
+            return (NULL);
+        if ((newVarList = getOneParam(newVarList, tmpPart)) == NULL)
+            return (NULL);
+        while ((tmpPart = strtok(NULL, ",")) != NULL)
+        {
+            if ((newVarList = getOneParam(newVarList, tmpPart)) == NULL)
+                return (NULL);                    
+        }
+    }
     return (newVarList);
 }
 
@@ -202,13 +236,16 @@ t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
             {
                 strcpy(tmpType, strtok(firstPart, " "));
                 strcpy(tmpName, strtok(NULL, " "));
-                varNode = getFuncParams(fileContent->path); // FUNC
+                varNode = getFuncParams(fileContent->path);
                 if (mainScopeList == NULL)
                     mainScopeList = initScopeList(mainScopeList, tmpName, tmpType, varNode);
+                else
+                    mainScopeList = addLineScopeNode(mainScopeList, tmpName, tmpType, varNode);
             }
             
         }
         fileContent = fileContent->next;
     }
+    displayScopeList(mainScopeList);
     return (mainScopeList);
 }

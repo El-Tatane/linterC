@@ -11,7 +11,7 @@ void fonctian(int          * * ** * * * * * **a)
 
 }
 
-void fonction(int a, char b, int* c, char *d, char** e){
+void fonction(int a, char boila, int* cado, char *d, char** e){
 
 	puts("ok");
 }

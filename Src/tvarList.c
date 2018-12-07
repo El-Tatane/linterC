@@ -8,7 +8,7 @@ void displayVarList(t_var *mainNode)
 {
     while (mainNode != NULL)
     {
-        printf("type : %s name : %s flag : %d\n", mainNode->type, mainNode->name, mainNode->isParam);
+        printf("   TYPE: %s NAME: %s FLAG: %d\n", mainNode->type, mainNode->name, mainNode->isParam);
         mainNode = mainNode->next;
     }
 }
@@ -37,9 +37,9 @@ t_var *addVarNode(t_var *mainNode, char *type, char *name, int isParam)
 
     if ((newNode = malloc(sizeof(t_var) * 1)) == NULL)
         return (NULL);
-    if ((mainNode->type = malloc(sizeof(char) * strlen(type) + 1)) == NULL)
+    if ((newNode->type = malloc(sizeof(char) * strlen(type) + 1)) == NULL)
         return (NULL);
-    if ((mainNode->name = malloc(sizeof(char) * strlen(name) + 1)) == NULL)
+    if ((newNode->name = malloc(sizeof(char) * strlen(name) + 1)) == NULL)
         return (NULL);
     while (location->next != NULL)
         location = location->next;
