@@ -16,6 +16,14 @@ struct s_list
     t_list *next;
 };
 
+struct s_tmpVar
+{
+    char *type;
+    char *name;
+    int isParam;
+    int  foundAtLine;
+}       t_tmpVar;
+
 struct s_var
 {
     char *type;

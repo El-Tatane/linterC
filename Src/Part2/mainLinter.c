@@ -28,7 +28,6 @@ int mainLinter(t_list *extendNode, t_list *excludeNode, t_rules rules, char *pat
     t_list *fileContent;
     char editPath[2048];
     strcpy(editPath, path);
-    //OPENDIR .
     if ((dir = opendir(path)) == NULL)
         return (-1);
     while ((info = readdir(dir)) != NULL)

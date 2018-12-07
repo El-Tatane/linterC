@@ -16,7 +16,9 @@ SRC	 =  Src/main.c \
 		Src/Part2/multiLinesRules.c \
 		Src/createScopeList.c \
 		Src/scopeList.c \
-		Src/tvarList.c
+		Src/tvarList.c \
+		Src/stringUtils.c \
+		Src/insideParams.c
 		
 
 OBJ	 = $(SRC:.c=.o)

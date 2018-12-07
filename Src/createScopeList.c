@@ -4,106 +4,7 @@
 #include "prototypes.h"
 #include "list.h"
 
-char *removeSpaces(char *part)
-{
-    int i = 0;
-    int n = 0;
-    char *ret;
-
-    if ((ret = malloc(sizeof(char) * strlen(part))) == NULL)
-        return (NULL);
-    while (part[i] != '\0')
-    {   
-        if (part[i] != ' ' && part[i] != '\t')
-            ret[n++] = part[i];
-        i++;
-    }
-    ret[n] = '\0';
-    return (ret);
-}
-
-int isFunctionChar(char c)
-{  
-    if (c >= '0' && c <= '9' || c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c == '_')
-    {
-        return (1);
-    }
-    return (0);
-}
-
-char  *getLastPart(char *str, char c)
-{
-    char *ret;
-    int i;
-    int n;
-
-    n = 0;
-    if ((strchr(str, c)) == NULL)
-        return (NULL);
-    i = strlen(str);
-    while (str[i] != c)
-        i--;
-    if ((ret = malloc(sizeof(char) * (strlen(str)))) == NULL)
-        return (NULL);
-    
-    while (str[i] != '\0')
-    {
-        ret[n] = str[i];
-        n++;
-        i++;
-    }
-    ret[n] = '\0';
-    return (ret);
-}
-
-char  *getFirstPart(char *str, char c, int *nbWord)
-{
-    char *ret;
-    int i = 0;
-    
-    while (str[i] != c)
-    {
-        if (i == 0 && isFunctionChar(str[i]) == 1)
-            (*nbWord)++;
-        else if (isFunctionChar(str[i]) == 1 && (str[i - 1] == ' ' || str[i - 1] == '\t'))  
-            (*nbWord)++;
-        i++;
-    }
-    if ((ret = malloc(sizeof(char) * i + 1)) == NULL)
-        return (NULL);
-    strncpy(ret, str, i);
-    ret[i] = '\0';
-    return (ret);
-}
-
-char  *getLastWord(char *str, int pos)
-{
-    int tmp;
-    char *ret;
-    int i = 0;
-
-    tmp = pos;
-    while (tmp > 0)
-    {
-        if (str[tmp] == ' ' || str[tmp] == '\t')
-            break;
-        tmp--;
-    }
-    if ((ret = malloc(sizeof(char) * (pos - tmp) + 1)) == NULL)
-        return (NULL);
-
-    tmp++;
-    while (tmp < pos)
-    {
-        ret[i] = str[tmp];
-        i++;
-        tmp++;
-    }
-    ret[i] = '\0';
-   return (ret);
-}
-
-t_var *getPointerParam(t_var *mainNode, char *part, int len)
+t_var *getPointerParam(t_var *mainNode, char *part, int len) // get pointer param
 {
     char *noSpace;
     char *tmpType;
@@ -120,7 +21,6 @@ t_var *getPointerParam(t_var *mainNode, char *part, int len)
     strncpy(tmpType, noSpace, (strlen(noSpace) - strlen(lastPart + 1)));
     tmpType[strlen(noSpace) - strlen(lastPart + 1)] = '\0';
 
-    printf("type %s name %s\n", tmpType, lastPart + 1);
     if (mainNode == NULL)
     {
         if (((mainNode = initVarList(mainNode, tmpType, lastPart + 1, 1, len))) == NULL)
@@ -134,7 +34,7 @@ t_var *getPointerParam(t_var *mainNode, char *part, int len)
     return (mainNode);
 }
 
-t_var *getNotPointerParam(t_var *mainNode, char *part, int len)
+t_var *getNotPointerParam(t_var *mainNode, char *part, int len) //Get a not pointer param
 {
     int i;
     int n;
@@ -169,24 +69,21 @@ t_var *getNotPointerParam(t_var *mainNode, char *part, int len)
     }
     type[n] = '\0';
 
-    printf("type %s name %s\n", type, name);
+    //printf("%s %s\n", type, name);
     if (mainNode == NULL)
     {
-        printf("aa\n");
         if (((mainNode = initVarList(mainNode, type, name, 1, len))) == NULL)
             return (NULL);
     }
     else
     {
-        printf("bb\n");
         if (((mainNode = addVarNode(mainNode, type, name, 1, len))) == NULL)
             return (NULL);
     }
-    displayVarList(mainNode);
     return (mainNode);
 }
 
-t_var *getOneParam(t_var *mainNode, char *part, int len)
+t_var *getOneParam(t_var *mainNode, char *part, int len) // Get One Func Param
 {
     char *noSpace;
     char *tmpType;
@@ -204,7 +101,7 @@ t_var *getOneParam(t_var *mainNode, char *part, int len)
     return (mainNode);
 }
 
-t_var *getFuncParams(char *line, int len)
+t_var *getFuncParams(char *line, int len) // get ALL Func Params
 {
     int nb  = 0;
     char part[2048];
@@ -239,39 +136,30 @@ t_var *getFuncParams(char *line, int len)
     return (newVarList);
 }
 
-t_var *getInsideParams(char *line, int len)
+t_scopeList *addFunction(t_scopeList *mainScopeList, char *line, int len, char * firstPart)
 {
-    t_var *newVarList = NULL;
-    if (strchr(line, ',') == NULL)
-    {
-       if ((newVarList = getOneParam(newVarList, line, len)) == NULL)
-            return (NULL); 
-    }
-    
-    return (newVarList);
+    char tmpName[2048];
+    char tmpType[2048];
+    t_var *varNode;
+
+    strcpy(tmpType, strtok(firstPart, " "));
+    strcpy(tmpName, strtok(NULL, " "));
+    if ((varNode = getFuncParams(line, len)) == NULL)
+        return (NULL);
+    if (mainScopeList == NULL)
+        mainScopeList = initScopeList(mainScopeList, tmpName, tmpType, varNode, len);
+    else
+        mainScopeList = addLineScopeNode(mainScopeList, tmpName, tmpType, varNode, len);
+    return (mainScopeList);
 }
 
-int containsType(char *line)
+t_scopeList *addInsideParams(t_scopeList *mainScopeList, char *line, int len, int n, int d)
 {
-    char types[][10] = {
-        "int",
-        "char",
-        "double",
-        "float",
-        "short",
-        "long",
-        "bool",
-        "void",
-        "unsigned",
-        "struct",
-    };
-
-    for (int i = 0; i < 10; i++)
-    {
-        if ((strstr(line, types[i])) != NULL)
-            return (1);
-    }
-    return (0);
+    t_var *tmpVar;
+    tmpVar = getInsideParams(line, len); //retourner liste chainees de parametre int a,b,c
+    addVarAtPosition(mainScopeList, n, d, tmpVar, len);
+    //Add var to position (va aller à la fin de la liste var D => ajouter la liste abc)
+    return (mainScopeList);
 }
 
 t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
@@ -280,39 +168,23 @@ t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
     int n = 0;
     int len = 1;
 
-
     while (fileContent != NULL)
     {
-        char tmpName[2048];
-        char tmpType[2048];
-        char firstPart[2048];
-        int  nbWord = 0;
-        t_var *varNode;
-
-
-        if ((strchr(fileContent->path, '(') != NULL) && (strchr(fileContent->path, ')') != NULL)
-         && (strchr(fileContent->path, ';') == NULL))
+        if ((strchr(fileContent->path, '(') != NULL) && (strchr(fileContent->path, ')') != NULL) && (strchr(fileContent->path, ';') == NULL))
         {
             n++;
+            char firstPart[2048];
+            int nbWord = 0;
             strcpy(firstPart, getFirstPart(fileContent->path, '(', &nbWord));
             if (nbWord == 2)
             {
-                strcpy(tmpType, strtok(firstPart, " "));
-                strcpy(tmpName, strtok(NULL, " "));
-                varNode = getFuncParams(fileContent->path, len);
-                if (mainScopeList == NULL)
-                    mainScopeList = initScopeList(mainScopeList, tmpName, tmpType, varNode, len);
-                else
-                    mainScopeList = addLineScopeNode(mainScopeList, tmpName, tmpType, varNode, len);
-            }          
+                if ((mainScopeList = addFunction(mainScopeList, fileContent->path, len, firstPart)) == NULL)
+                    return (NULL);
+            }
         }
         else if ((containsType(fileContent->path) == 1 && strchr(fileContent->path, '(') == NULL && strchr(fileContent->path, ')') == NULL))
         {
-            //t_var *tmpNode;
-            printf("%s\n", fileContent->path);
-            varNode = getInsideParams(fileContent->path, len);
-            
-            //addVarAtPosition(mainScopeList, n, d, varNode, len);
+            mainScopeList = addInsideParams(mainScopeList, fileContent->path, len, n, d);
         }
         if ((strchr(fileContent->path, '{')) != NULL)
             d++;
@@ -321,6 +193,6 @@ t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
         fileContent = fileContent->next;
         len++;
     }
-    //displayScopeList(mainScopeList);
+    displayScopeList(mainScopeList);
     return (mainScopeList);
 }

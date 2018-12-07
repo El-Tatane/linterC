@@ -14,6 +14,20 @@ void displayScopeList(t_scopeList *mainNode)
     }
 }
 
+int listLen(t_scopeList *mainScopeNode)
+{
+    int i = 0;
+
+    if (mainScopeNode == NULL)
+        return (0);
+    while (mainScopeNode->next != NULL)
+    {
+        mainScopeNode = mainScopeNode->next;
+        i++;
+    }
+    return (i);
+}
+
 int listDeep(t_scopeList *mainScopeNode)
 {
     int i = 0;
@@ -28,19 +42,19 @@ int listDeep(t_scopeList *mainScopeNode)
     return (i);
 }
 
-t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *new_var, int len)
+t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *tmpVar, int len)
 {
     int i = 0;
     int deep;
 
-    while (i < n)
+    while (i < n - 1)
     {
         mainScopeNode = mainScopeNode->next;
         i++;
     }
-
-    deep = listDeep(mainScopeNode);
-    printf("%d\n", deep);
+    printf("%d %s\n", n, mainScopeNode->funcName);
+    //deep = listDeep(mainScopeNode);
+    //printf("%d\n", deep);
 
 
 }

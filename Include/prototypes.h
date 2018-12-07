@@ -1,8 +1,10 @@
 #ifndef PROTOTYPES_H_
 #define PROTOTYPES_H_
 
+#include <stdio.h>
 #include "rules.h"
 #include "list.h"
+
 
 extern char currentFile[2048];
 
@@ -58,11 +60,19 @@ t_var *getFuncParams(char *line, int len);
 t_var *getOneParam(t_var *mainNode, char *part, int len);
 t_var *getNotPointerParam(t_var *mainNode, char *part, int len);
 t_var *getPointerParam(t_var *mainNode, char *part, int len);
+
+t_scopeList *addInsideParams(t_scopeList *mainScopeList, char *line, int len, int n, int d);
+
+//stringUtils
+int isFunctionChar(char c);
+char *removeSpaces(char *part);
+int containsType(char *line);
 char  *getLastWord(char *str, int pos);
 char  *getFirstPart(char *str, char c, int *nbWord);
 char  *getLastPart(char *str, char c);
-int isFunctionChar(char c);
-char *removeSpaces(char *part);
+
+//insideParams
+t_var *getInsideParams(char *line, int len);
 
 //scopeList
 t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *new_var, int len);
