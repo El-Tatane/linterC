@@ -54,15 +54,25 @@ void commentsHeader(t_list *fileContent);
 //createScopeList
 
 t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList);
+t_var *getFuncParams(char *line, int len);
+t_var *getOneParam(t_var *mainNode, char *part, int len);
+t_var *getNotPointerParam(t_var *mainNode, char *part, int len);
+t_var *getPointerParam(t_var *mainNode, char *part, int len);
+char  *getLastWord(char *str, int pos);
+char  *getFirstPart(char *str, char c, int *nbWord);
+char  *getLastPart(char *str, char c);
+int isFunctionChar(char c);
+char *removeSpaces(char *part);
 
-//ccopeList
-t_scopeList *initScopeList(t_scopeList *mainScopeNode, char *funcName, char *type, t_var *vars);
-t_scopeList *addLineScopeNode(t_scopeList *mainNode, char *funcName, char *type, t_var *vars);
+//scopeList
+t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *new_var, int len);
+t_scopeList *initScopeList(t_scopeList *mainScopeNode, char *funcName, char *type, t_var *vars, int len);
+t_scopeList *addLineScopeNode(t_scopeList *mainNode, char *funcName, char *type, t_var *vars, int len);
 void displayScopeList(t_scopeList *mainNode);
 
 //tvarList.c
-t_var *initVarList(t_var *mainNode, char *type, char *name, int isParam);
-t_var *addVarNode(t_var *mainNode, char *type, char *name, int isParam);
+t_var *initVarList(t_var *mainNode, char *type, char *name, int isParam, int len);
+t_var *addVarNode(t_var *mainNode, char *type, char *name, int isParam, int len);
 void displayVarList(t_var *mainNode);
 
 #endif

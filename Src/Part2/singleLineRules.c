@@ -166,7 +166,9 @@ void noMultiDeclaration(char *line, int rowNb)
         "short",
         "long",
         "bool",
-        "void"
+        "void",
+        "unsigned",
+        "struct",
     };
     int find;
     int n;
@@ -175,7 +177,7 @@ void noMultiDeclaration(char *line, int rowNb)
     n = 0;
     count = 0;
     find = 0;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 10; i++)
     {
         if ((strstr(line, types[i])) != NULL)
         {

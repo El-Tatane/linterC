@@ -8,12 +8,12 @@ void displayVarList(t_var *mainNode)
 {
     while (mainNode != NULL)
     {
-        printf("   TYPE: %s NAME: %s FLAG: %d\n", mainNode->type, mainNode->name, mainNode->isParam);
+        printf("   TYPE: %s NAME: %s FLAG: %d LINE: %d\n", mainNode->type, mainNode->name, mainNode->isParam, mainNode->foundAtLine);
         mainNode = mainNode->next;
     }
 }
 
-t_var *initVarList(t_var *mainNode, char *type, char *name, int isParam)
+t_var *initVarList(t_var *mainNode, char *type, char *name, int isParam, int len)
 {
     if ((mainNode = malloc(sizeof(t_var) * 1)) == NULL)
         return (NULL);
@@ -24,11 +24,12 @@ t_var *initVarList(t_var *mainNode, char *type, char *name, int isParam)
     strcpy(mainNode->type, type);
     strcpy(mainNode->name, name);
     mainNode->isParam = isParam;
+    mainNode->foundAtLine = len;
     mainNode->next = NULL;
     return (mainNode);
 }
 
-t_var *addVarNode(t_var *mainNode, char *type, char *name, int isParam)
+t_var *addVarNode(t_var *mainNode, char *type, char *name, int isParam, int len)
 {
     t_var *newNode;
     t_var *location;
@@ -49,5 +50,6 @@ t_var *addVarNode(t_var *mainNode, char *type, char *name, int isParam)
     strcpy(newNode->type, type);
     strcpy(newNode->name, name);
     newNode->isParam = isParam;
+    newNode->foundAtLine = len;
     return (mainNode);
 }

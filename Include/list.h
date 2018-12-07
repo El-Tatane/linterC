@@ -21,6 +21,7 @@ struct s_var
     char *type;
     char *name;
     int isParam;
+    int  foundAtLine;
     t_var *next;
 }; 
 
@@ -28,6 +29,7 @@ struct s_scopeList
 {
     char *funcName;
     char *returnType;
+    int  foundAtLine;
     t_scopeList *next;
     t_scopeList *deep;
     t_var *varList; // MAIN Node t_var list
