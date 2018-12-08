@@ -17,6 +17,7 @@ void function()
   	if (a)
   	{
   		long lucie;
+  		char mdr;
   		if (b)
   		{
   			short rose;

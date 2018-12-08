@@ -49,7 +49,6 @@ int listDeep(t_scopeList *mainScopeNode)
         return (0);
     while (mainScopeNode->deep != NULL)
     {
-        printf("ICI\n");
         mainScopeNode = mainScopeNode->deep;
         i++;
     }
@@ -59,6 +58,7 @@ int listDeep(t_scopeList *mainScopeNode)
 t_scopeList *addEmptyNodeDeepAtPosition(t_scopeList *mainScopeNode, int n, int d, int len)
 {
     t_scopeList *tmpNode;
+    t_scopeList *tmpDeep;
     int i = 0;
 
     tmpNode = mainScopeNode;
@@ -68,16 +68,22 @@ t_scopeList *addEmptyNodeDeepAtPosition(t_scopeList *mainScopeNode, int n, int d
         tmpNode = tmpNode->next;
         i++;
     }
-    while (tmpNode->deep != NULL)
-        tmpNode = tmpNode->deep;
-    if (tmpNode == NULL)
+    i = 0;
+    tmpDeep = tmpNode;
+    while (i < (d - 2)) // ?? 1 or 2
     {
-        tmpNode = initScopeList(tmpNode, "EMPTY_NODE", "EMPTY_NODE", NULL, len);
+        tmpDeep = tmpDeep->deep;
+        i++;
+    }   
+    if (tmpDeep->deep == NULL)
+    {
+        if ((tmpDeep->deep = initScopeList(tmpDeep->deep,  "EMPTY_NODE", "EMPTY_NODE", NULL, len)) == NULL)
+            return (NULL);
     }
     else
     {
-
-        tmpNode = addLineScopeNode(tmpNode,  "EMPTY_NODE", "EMPTY_NODE", NULL, len);
+        if ((tmpDeep->deep = addLineScopeNode(tmpDeep->deep,  "EMPTY_NODE", "EMPTY_NODE", NULL, len)) == NULL)
+            return (NULL);
     }
     return (mainScopeNode);
 }
@@ -86,9 +92,10 @@ t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *t
 {
     int i = 0;
     int deep;
-
     t_scopeList *tmpNode;
+    t_scopeList *tmpDeep;
     t_var *tmp;
+
 
     tmpNode = mainScopeNode;
     while (i < n - 1) // enlever - 1 quand ajout casse global
@@ -96,38 +103,35 @@ t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *t
         tmpNode = tmpNode->next;
         i++;
     }
-    printf("%s\n", tmpNode->funcName);
-    
 
     deep = listDeep(tmpNode);
-    printf("%d %d\n", d, deep);
     if ((d - 1) > deep)
     {
         printf("deep node not existing\n");
         return (NULL);
     }
-
     i = 0;
-
-    while (i < d - 1)
+    tmpDeep = tmpNode;
+    while (i < (d - 1))
     {
-        tmpNode = tmpNode->deep;
+        tmpDeep = tmpDeep->deep;
         i++;
     }
-    while (tmpNode->next != NULL)
+    printf("%d\n", i);
+    while (tmpDeep->next != NULL) //tester if * 2
     {
-        tmpNode = tmpNode->next;
+        tmpDeep = tmpDeep->next;
     }
     
-    tmp = tmpNode->varList;
+    tmp = tmpDeep->varList;
     
     if (tmp == NULL)
     {
-        tmpNode->varList = tmpVar;
+        tmpDeep->varList = tmpVar;
     }
     else if ((strcmp(tmp->name, "UNDEFINED")) == 0)
     {
-        tmpNode->varList = tmpVar;
+        tmpDeep->varList = tmpVar;
     }
     else
     {
@@ -137,6 +141,7 @@ t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *t
         }
         tmp->next = tmpVar;
     }
+    //displayScopeList(mainScopeNode);
     return (mainScopeNode);
 }
 
