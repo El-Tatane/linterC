@@ -1,0 +1,25 @@
+int main(int a, int b)
+{
+  char *c;
+  int hou;
+}
+
+int function1(char *ALPHA)
+{
+  char *dacc;
+  unsigned lol;
+}
+
+void function()
+{
+	char nico;
+  	int tatane;
+  	if (a)
+  	{
+  		long lucie;
+  		if (b)
+  		{
+  			short rose;
+  		}
+  	}
+}

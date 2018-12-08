@@ -53,6 +53,7 @@ char *removeSpaces(char *part)
     int n = 0;
     char *ret;
 
+    
     if ((ret = malloc(sizeof(char) * strlen(part))) == NULL)
         return (NULL);
     while (part[i] != '\0')
@@ -61,6 +62,7 @@ char *removeSpaces(char *part)
             ret[n++] = part[i];
         i++;
     }
+
     ret[n] = '\0';
     return (ret);
 }
@@ -116,6 +118,7 @@ char  *getLastWord(char *str, int pos) // recupère dernier mot à partir de pos
     tmp++;
     while (tmp < pos)
     {
+
         ret[i] = str[tmp];
         i++;
         tmp++;

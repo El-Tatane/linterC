@@ -21,6 +21,13 @@ t_var *getPointerParam(t_var *mainNode, char *part, int len) // get pointer para
     strncpy(tmpType, noSpace, (strlen(noSpace) - strlen(lastPart + 1)));
     tmpType[strlen(noSpace) - strlen(lastPart + 1)] = '\0';
 
+    int i = 1;
+    while (lastPart[i] != '\0')
+    {
+        if (lastPart[i] == ';')
+            lastPart[i] = '\0';
+        i++;
+    }
     if (mainNode == NULL)
     {
         if (((mainNode = initVarList(mainNode, tmpType, lastPart + 1, 1, len))) == NULL)
@@ -68,8 +75,14 @@ t_var *getNotPointerParam(t_var *mainNode, char *part, int len) //Get a not poin
         j++;
     }
     type[n] = '\0';
+    j = strlen(name);
 
-    //printf("%s %s\n", type, name);
+    while (j > 0)
+    {
+        if (name[j] == ';')
+            name[j] = '\0';
+        j--;
+    }
     if (mainNode == NULL)
     {
         if (((mainNode = initVarList(mainNode, type, name, 1, len))) == NULL)
@@ -136,6 +149,17 @@ t_var *getFuncParams(char *line, int len) // get ALL Func Params
     return (newVarList);
 }
 
+t_scopeList *addInsideParams(t_scopeList *mainScopeList, char *line, int len, int n, int d)
+{
+    t_var *tmpVar;
+
+    tmpVar = getInsideParams(line, len); //retourner liste chainees de parametre int a,b,c
+    //displayVarList(tmpVar);
+    addVarAtPosition(mainScopeList, n, d, tmpVar, len);
+    //Add var to position (va aller à la fin de la liste var D => ajouter la liste abc)
+    return (mainScopeList);
+}
+
 t_scopeList *addFunction(t_scopeList *mainScopeList, char *line, int len, char * firstPart)
 {
     char tmpName[2048];
@@ -153,31 +177,24 @@ t_scopeList *addFunction(t_scopeList *mainScopeList, char *line, int len, char *
     return (mainScopeList);
 }
 
-t_scopeList *addInsideParams(t_scopeList *mainScopeList, char *line, int len, int n, int d)
-{
-    t_var *tmpVar;
-    tmpVar = getInsideParams(line, len); //retourner liste chainees de parametre int a,b,c
-    addVarAtPosition(mainScopeList, n, d, tmpVar, len);
-    //Add var to position (va aller à la fin de la liste var D => ajouter la liste abc)
-    return (mainScopeList);
-}
-
 t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
 {
     int d = 0;
     int n = 0;
     int len = 1;
+    int func = 1;
 
     while (fileContent != NULL)
     {
         if ((strchr(fileContent->path, '(') != NULL) && (strchr(fileContent->path, ')') != NULL) && (strchr(fileContent->path, ';') == NULL))
         {
-            n++;
             char firstPart[2048];
             int nbWord = 0;
             strcpy(firstPart, getFirstPart(fileContent->path, '(', &nbWord));
             if (nbWord == 2)
             {
+                n++;
+                func = 1;
                 if ((mainScopeList = addFunction(mainScopeList, fileContent->path, len, firstPart)) == NULL)
                     return (NULL);
             }
@@ -187,7 +204,13 @@ t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
             mainScopeList = addInsideParams(mainScopeList, fileContent->path, len, n, d);
         }
         if ((strchr(fileContent->path, '{')) != NULL)
+        {
             d++;
+            if (func == 1)
+                func = 0;
+            else
+                mainScopeList = addEmptyNodeDeepAtPosition(mainScopeList, n, d, len);
+        }
         if ((strchr(fileContent->path, '}')) != NULL)
             d--;
         fileContent = fileContent->next;

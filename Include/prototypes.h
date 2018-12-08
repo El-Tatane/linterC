@@ -79,6 +79,8 @@ t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *n
 t_scopeList *initScopeList(t_scopeList *mainScopeNode, char *funcName, char *type, t_var *vars, int len);
 t_scopeList *addLineScopeNode(t_scopeList *mainNode, char *funcName, char *type, t_var *vars, int len);
 void displayScopeList(t_scopeList *mainNode);
+t_scopeList *addEmptyNodeDeepAtPosition(t_scopeList *mainScopeNode, int n, int d, int len);
+t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *tmpVar, int len);
 
 //tvarList.c
 t_var *initVarList(t_var *mainNode, char *type, char *name, int isParam, int len);

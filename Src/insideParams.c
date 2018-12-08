@@ -82,33 +82,13 @@ t_var *getInsidePointerParam(t_var *mainNode, char *part, int len) // get pointe
     return (mainNode);
 }
 
-
-t_var *getInsideOneParam(t_var *mainNode, char *part, int len) // Get One Func Param
-{
-    char *noSpace;
-    char *tmpType;
-
-    if ((strchr(part, '*')) != NULL)
-    {
-        if ((mainNode = getInsidePointerParam(mainNode, part, len)) == NULL)
-            return (NULL);
-    }
-    // else
-    // {
-    //     if ((mainNode = getInsideNotPointerParam(mainNode, part, len)) == NULL)
-    //         return (NULL);
-    // }
-    return (mainNode);
-}
-
 t_var *getInsideParams(char *line, int len)
 {
     t_var *newVarList = NULL;
     if (strchr(line, ',') == NULL)
     {
-       if ((newVarList = getInsideOneParam(newVarList, line, len)) == NULL)
+       if ((newVarList = getOneParam(newVarList, line, len)) == NULL)
             return (NULL); 
     }
-    displayVarList(newVarList);
     return (newVarList);
 }
