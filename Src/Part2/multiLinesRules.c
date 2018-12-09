@@ -53,29 +53,95 @@ t_list *getStartingLine(t_list *mainNode, int pos)
     return (mainNode);
 }
 
+
 void unusedVariable(t_scopeList *mainNode, t_list *list)
 {
+    t_var *tmpVar;
+    t_list *tmpList;
     t_scopeList *tmpNode;
-    t_list      *tmpList;
-    t_var       *tmpVar;
-
+    t_scopeList *tmpDeep;
+    t_scopeList *tmpDN;
+    int deep = 1;
+    
     tmpNode = mainNode;
-    while (tmpNode != NULL) // parcours chaque fonction
-    {
-        printf("FUNC NAME %s\n", tmpNode->funcName);
+    while (tmpNode != NULL)
+    {    
         tmpVar = tmpNode->varList;
-        while (->deep != NULL)
-        {    
+        while (tmpVar != NULL) // parcours chaque liste de variable 
+        {
+            //printf("%s\n", tmpVar->name);
+            tmpList = getStartingLine(list, tmpVar->foundAtLine);
+            searchVariable(tmpList, tmpVar);      
+            tmpVar = tmpVar->next;
+        }
+        tmpDeep = tmpNode->deep;
+        while (tmpDeep != NULL)
+        {
+            tmpVar = tmpDeep->varList;
             while (tmpVar != NULL) // parcours chaque liste de variable 
             {
+            //printf("%s\n", tmpVar->name);
                 tmpList = getStartingLine(list, tmpVar->foundAtLine);
                 searchVariable(tmpList, tmpVar);      
                 tmpVar = tmpVar->next;
             }
+            tmpDN = tmpDeep->next;
+            while (tmpDN != NULL)
+            {
+                tmpVar = tmpDN->varList;
+                while (tmpVar != NULL) // parcours chaque liste de variable 
+                {
+                    tmpList = getStartingLine(list, tmpVar->foundAtLine);
+                    searchVariable(tmpList, tmpVar);      
+                    tmpVar = tmpVar->next;
+                }
+                tmpDN = tmpDN->next;  
+            }
+            tmpDeep = tmpDeep->deep;
         }
+        deep = 1;
         tmpNode = tmpNode->next;
     }
 }
+
+// void unusedVariable(t_scopeList *mainNode, t_list *list)
+// {
+//     t_scopeList *tmpDeepNext;
+//     t_scopeList *tmpDeep;
+//     t_scopeList *tmpNode;
+//     t_list      *tmpList;
+//     t_var       *tmpVar;
+
+//     tmpNode = mainNode;
+//     while (tmpNode != NULL) // parcours chaque fonction
+//     {
+//         printf("FUNC NAME %s\n", tmpNode->funcName);
+
+//         tmpDeep = tmpNode;
+//         while (tmpDeep != NULL) // parcours profondeur
+//         {   
+//             tmpDeepNext = tmpDeep;
+//             while (tmpDeepNext != NULL) //parcours next profondeur
+//             {
+//                 tmpVar = tmpDeepNext->varList;
+//                 displayVarList(tmpVar);
+//                 while (tmpVar != NULL) // parcours chaque liste de variable 
+//                 {
+//                     //printf("%s\n", tmpVar->name);
+//                     tmpList = getStartingLine(list, tmpVar->foundAtLine);
+//                     searchVariable(tmpList, tmpVar);      
+//                     tmpVar = tmpVar->next;
+//                 }
+//                 tmpDeepNext = tmpDeepNext->next;
+//             }
+//             tmpDeep = tmpDeep->deep;
+//         }
+//         tmpNode = tmpNode->next;
+//     }
+// }
+
+
+
 
 void undeclaredVariable(t_scopeList *mainNode, t_list *list)
 {

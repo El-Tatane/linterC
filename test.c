@@ -33,6 +33,7 @@ void function()
 		if (b)
 		{
 			short AHAH;
+			lucie = 2;
 		}
 	}
 	rose = 2;

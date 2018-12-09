@@ -219,6 +219,6 @@ t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList, t_
         fileContent = fileContent->next;
         len++;
     }
-    //displayScopeList(mainScopeList);
+    displayScopeList(mainScopeList);
     return (mainScopeList);
 }
