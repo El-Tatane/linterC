@@ -118,6 +118,8 @@ void launchMultiLinesRules(t_list *fileContent, t_rules rules)
         maxFileLineNumbers(fileContent, rules.maxFileLineNumbers);
     if (rules.commentsHeader == 1)
         commentsHeader(fileContent);
+    if (rules.noPrototype == 1)
+        noPrototype(mainScopeNode, fileContent);
 
 }
 

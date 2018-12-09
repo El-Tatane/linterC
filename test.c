@@ -1,3 +1,6 @@
+int function1(char*ALPHA);
+int main(int a, int b);
+
 int main(int a, int b)
 {
 	char *c;

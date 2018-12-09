@@ -51,16 +51,18 @@ void noMultiDeclaration(char *line, int rowNb);
 void maxFileLineNumbers(t_list *fileContent, int max);
 void commentsHeader(t_list *fileContent);
 void indent(char *line, int size, int lineNb, int d);
-
+int noPrototype(t_scopeList *mainNode, t_list *fileContent);
+char *createPrototype(t_scopeList *mainNode);
+int  isGoodPrototypes(char *func, char *proto);
 //Part3
 
 //createScopeList
 
 t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList, t_rules rules);
 t_var *getFuncParams(char *line, int len);
-t_var *getOneParam(t_var *mainNode, char *part, int len);
-t_var *getNotPointerParam(t_var *mainNode, char *part, int len);
-t_var *getPointerParam(t_var *mainNode, char *part, int len);
+t_var *getOneParam(t_var *mainNode, char *part, int len, int isParam);
+t_var *getNotPointerParam(t_var *mainNode, char *part, int len, int isParam);
+t_var *getPointerParam(t_var *mainNode, char *part, int len, int isParam);
 
 t_scopeList *addInsideParams(t_scopeList *mainScopeList, char *line, int len, int n, int d);
 

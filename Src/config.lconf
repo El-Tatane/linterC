@@ -2,6 +2,7 @@
 Src/config2.lconf
 
 =rules
+- no-prototype = on
 - indent = 1
 - array-Bracket-eol = off
 - operators-spacing = off

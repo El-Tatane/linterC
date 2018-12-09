@@ -52,12 +52,11 @@ char *removeSpaces(char *part)
     int i = 0;
     int n = 0;
     char *ret;
-
     
     if ((ret = malloc(sizeof(char) * strlen(part))) == NULL)
         return (NULL);
     while (part[i] != '\0')
-    {   
+    {  
         if (part[i] != ' ' && part[i] != '\t')
             ret[n++] = part[i];
         i++;

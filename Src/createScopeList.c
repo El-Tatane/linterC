@@ -4,7 +4,7 @@
 #include "prototypes.h"
 #include "list.h"
 
-t_var *getPointerParam(t_var *mainNode, char *part, int len) // get pointer param
+t_var *getPointerParam(t_var *mainNode, char *part, int len, int isParam) // get pointer param
 {
     char *noSpace;
     char *tmpType;
@@ -30,18 +30,18 @@ t_var *getPointerParam(t_var *mainNode, char *part, int len) // get pointer para
     }
     if (mainNode == NULL)
     {
-        if (((mainNode = initVarList(mainNode, tmpType, lastPart + 1, 1, len))) == NULL)
+        if (((mainNode = initVarList(mainNode, tmpType, lastPart + 1, isParam, len))) == NULL)
             return (NULL);
     }
     else
     {
-        if (((mainNode = addVarNode(mainNode, tmpType, lastPart + 1, 1, len))) == NULL)
+        if (((mainNode = addVarNode(mainNode, tmpType, lastPart + 1, isParam, len))) == NULL)
             return (NULL);
     }
     return (mainNode);
 }
 
-t_var *getNotPointerParam(t_var *mainNode, char *part, int len) //Get a not pointer param
+t_var *getNotPointerParam(t_var *mainNode, char *part, int len, int isParam) //Get a not pointer param
 {
     int i;
     int n;
@@ -85,30 +85,30 @@ t_var *getNotPointerParam(t_var *mainNode, char *part, int len) //Get a not poin
     }
     if (mainNode == NULL)
     {
-        if (((mainNode = initVarList(mainNode, type, name, 1, len))) == NULL)
+        if (((mainNode = initVarList(mainNode, type, name, isParam, len))) == NULL)
             return (NULL);
     }
     else
     {
-        if (((mainNode = addVarNode(mainNode, type, name, 1, len))) == NULL)
+        if (((mainNode = addVarNode(mainNode, type, name, isParam, len))) == NULL)
             return (NULL);
     }
     return (mainNode);
 }
 
-t_var *getOneParam(t_var *mainNode, char *part, int len) // Get One Func Param
+t_var *getOneParam(t_var *mainNode, char *part, int len, int isParam) // Get One Func Param
 {
     char *noSpace;
     char *tmpType;
 
     if ((strchr(part, '*')) != NULL)
     {
-        if ((mainNode = getPointerParam(mainNode, part, len)) == NULL)
+        if ((mainNode = getPointerParam(mainNode, part, len, isParam)) == NULL)
             return (NULL);
     }
     else
     {
-        if ((mainNode = getNotPointerParam(mainNode, part, len)) == NULL)
+        if ((mainNode = getNotPointerParam(mainNode, part, len, isParam)) == NULL)
             return (NULL);
     }
     return (mainNode);
@@ -131,18 +131,18 @@ t_var *getFuncParams(char *line, int len) // get ALL Func Params
     }
     else if (strchr(part, ',') == NULL && nb != 0)
     {
-        if ((newVarList = getOneParam(newVarList, part, len)) == NULL)
+        if ((newVarList = getOneParam(newVarList, part, len, 1)) == NULL)
             return (NULL);
     }
     else if (strchr(part, ',') != NULL && nb != 0)
     {
         if ((tmpPart = strtok(part, ",")) == NULL)
             return (NULL);
-        if ((newVarList = getOneParam(newVarList, tmpPart, len)) == NULL)
+        if ((newVarList = getOneParam(newVarList, tmpPart, len, 1)) == NULL)
             return (NULL);
         while ((tmpPart = strtok(NULL, ",")) != NULL)
         {
-            if ((newVarList = getOneParam(newVarList, tmpPart, len)) == NULL)
+            if ((newVarList = getOneParam(newVarList, tmpPart, len, 1)) == NULL)
                 return (NULL);                    
         }
     }
