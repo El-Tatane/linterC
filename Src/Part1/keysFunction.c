@@ -5,7 +5,8 @@
 #include "prototypes.h"
 #include "list.h"
 
-int getExtend(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *mainExcludeNode) {
+int getExtend(char *line, t_tmpRules *rules, t_list *mainExtendNode, t_list *mainExcludeNode)
+{
     (void)mainExcludeNode;
 
     if (line[0] == '\0')

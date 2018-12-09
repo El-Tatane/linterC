@@ -14,7 +14,7 @@ void displayList(t_list *mainNode)
 
 unsigned int listExist(t_list *mainNode, char *str)
 {
-    while (mainNode->next != NULL)
+    while (mainNode != NULL)
     {
         if ((strcmp(mainNode->path, str)) == 0)
             return (1);

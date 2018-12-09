@@ -159,8 +159,6 @@ int  isGoodPrototypes(char *func, char *proto)
 
     if ((noSpaceProto = removeSpaces(proto)) == NULL)
         return (-1);
-
-    printf("%s %s\n", func, noSpaceProto);
     if ((strcmp(func, noSpaceProto) == 0))
         return (1);
     return (0);
@@ -219,6 +217,8 @@ int noPrototype(t_scopeList *mainNode, t_list *fileContent)
     int flag = 0;
     t_list *tmpLine;
 
+    if (mainNode == NULL)
+        return 0;
     maxLine = mainNode->foundAtLine;
     while (mainNode != NULL)
     {
@@ -247,21 +247,22 @@ int noPrototype(t_scopeList *mainNode, t_list *fileContent)
 void indent(char *line, int size, int lineNb, int d)
 {
     int i = 0;
-    int space = 0;
     int tab = 0;
 
+    if (line[0] == '\n' || line[0] == '\0')
+        return;
     while (line[i] != '\0')
     {
         if (line[i] != '\t' && line[i] != ' ')
             break;
-        if (line[i] == ' ')
-            space++;
-        if (line[i] == '\t');
+        if (line[i] == ' ' || line[i] == '\t')
             tab++;
         i++;
     }
-    if ((space / 4  + tab != size * d))
+    
+    if ((tab != (size * d)))
         displayErrorMessage("indent", lineNb, -1); 
+    
 }
 
 void commentsHeader(t_list *fileContent)

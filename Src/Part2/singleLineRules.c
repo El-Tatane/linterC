@@ -135,7 +135,6 @@ void noTrailingSpaces(char *line, int rowNb)
     int column;
 
     column = strlen(line);
-    printf("%c\n", line[column - 2]);
     if (line[column - 2] == ' ' || line[column - 2] == '\t')
         displayErrorMessage("noTrailingSpaces", rowNb + 1, column - 1);
     return;

@@ -113,7 +113,8 @@ void launchMultiLinesRules(t_list *fileContent, t_rules rules)
 {
     t_scopeList *mainScopeNode = NULL;
     
-    mainScopeNode = createScopeList(fileContent, mainScopeNode, rules); // check null valeur de ret
+    if ((mainScopeNode = createScopeList(fileContent, mainScopeNode, rules)) == NULL)
+        return;
     if (rules.maxFileLineNumbers != 0)
         maxFileLineNumbers(fileContent, rules.maxFileLineNumbers);
     if (rules.commentsHeader == 1)
