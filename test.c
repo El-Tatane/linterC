@@ -9,7 +9,7 @@ int main(int a, int b)
 	a = 3;
 }
 
-int function1(char *ALPHA)
+int tetris(char *ALPHA)
 {
 	char *dacc;
 	unsigned lol;
@@ -37,5 +37,6 @@ void function()
 		}
 	}
 	rose = 2;
+	tetris();
 	long proutate;
 }

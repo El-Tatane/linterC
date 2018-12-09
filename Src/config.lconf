@@ -2,7 +2,8 @@
 Src/config2.lconf
 
 =rules
-- unused-variable = on
+- unused-function = on
+- unused-variable = off
 - no-prototype = off
 - indent = off
 - array-Bracket-eol = off

@@ -122,6 +122,10 @@ void launchMultiLinesRules(t_list *fileContent, t_rules rules)
         noPrototype(mainScopeNode, fileContent);
     if (rules.unusedVariable == 1)
         unusedVariable(mainScopeNode, fileContent);
+    if (rules.undeclaredVariable == 1)
+        undeclaredVariable(mainScopeNode, fileContent);
+    if (rules.unusedFunction == 1)
+        unusedFunction(mainScopeNode, fileContent);
 }
 
 void launchSingleLineRules(t_list *fileContent, t_rules rules)

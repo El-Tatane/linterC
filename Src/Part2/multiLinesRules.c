@@ -53,6 +53,38 @@ t_list *getStartingLine(t_list *mainNode, int pos)
     return (mainNode);
 }
 
+int containsFunction(char *line, char *func)
+{
+    if ((strstr(line, func) != NULL && strchr(line, '(') != NULL && strchr(line, ')') != NULL) && containsType(line) == 0)
+        return (1);
+    return (0);
+}
+void unusedFunction(t_scopeList *mainNode, t_list *list)
+{
+    t_list *tmpList;
+    t_scopeList *tmpNode;
+    int          isUsed = 0;
+
+   tmpNode = mainNode;
+   while (tmpNode != NULL)
+   {
+        tmpList = list;
+        isUsed = 0;
+        while (tmpList != NULL)
+        {
+            if ((containsFunction(tmpList->path, tmpNode->funcName)) == 1)
+            { 
+                isUsed = 1;
+                break;
+            }
+            tmpList = tmpList->next;
+        }
+        if (isUsed == 0)
+            printf("Error on %s , rule : %s failed at line %d variable : %s \n", currentFile, "unusedFunction",
+             tmpNode->foundAtLine , tmpNode->funcName);
+        tmpNode = tmpNode->next;
+   }
+}
 
 void unusedVariable(t_scopeList *mainNode, t_list *list)
 {
@@ -69,9 +101,8 @@ void unusedVariable(t_scopeList *mainNode, t_list *list)
         tmpVar = tmpNode->varList;
         while (tmpVar != NULL) // parcours chaque liste de variable 
         {
-            //printf("%s\n", tmpVar->name);
             tmpList = getStartingLine(list, tmpVar->foundAtLine);
-            searchVariable(tmpList, tmpVar);      
+            searchVariable(tmpList, tmpVar); 
             tmpVar = tmpVar->next;
         }
         tmpDeep = tmpNode->deep;
@@ -80,7 +111,6 @@ void unusedVariable(t_scopeList *mainNode, t_list *list)
             tmpVar = tmpDeep->varList;
             while (tmpVar != NULL) // parcours chaque liste de variable 
             {
-            //printf("%s\n", tmpVar->name);
                 tmpList = getStartingLine(list, tmpVar->foundAtLine);
                 searchVariable(tmpList, tmpVar);      
                 tmpVar = tmpVar->next;
@@ -104,48 +134,15 @@ void unusedVariable(t_scopeList *mainNode, t_list *list)
     }
 }
 
-// void unusedVariable(t_scopeList *mainNode, t_list *list)
-// {
-//     t_scopeList *tmpDeepNext;
-//     t_scopeList *tmpDeep;
-//     t_scopeList *tmpNode;
-//     t_list      *tmpList;
-//     t_var       *tmpVar;
-
-//     tmpNode = mainNode;
-//     while (tmpNode != NULL) // parcours chaque fonction
-//     {
-//         printf("FUNC NAME %s\n", tmpNode->funcName);
-
-//         tmpDeep = tmpNode;
-//         while (tmpDeep != NULL) // parcours profondeur
-//         {   
-//             tmpDeepNext = tmpDeep;
-//             while (tmpDeepNext != NULL) //parcours next profondeur
-//             {
-//                 tmpVar = tmpDeepNext->varList;
-//                 displayVarList(tmpVar);
-//                 while (tmpVar != NULL) // parcours chaque liste de variable 
-//                 {
-//                     //printf("%s\n", tmpVar->name);
-//                     tmpList = getStartingLine(list, tmpVar->foundAtLine);
-//                     searchVariable(tmpList, tmpVar);      
-//                     tmpVar = tmpVar->next;
-//                 }
-//                 tmpDeepNext = tmpDeepNext->next;
-//             }
-//             tmpDeep = tmpDeep->deep;
-//         }
-//         tmpNode = tmpNode->next;
-//     }
-// }
-
-
-
-
 void undeclaredVariable(t_scopeList *mainNode, t_list *list)
 {
-    
+    t_list *tmpList;
+
+   //while (tmpList != NULL)
+   //{
+
+   //}
+
 }
 
 void maxFileLineNumbers(t_list *fileContent, int max)

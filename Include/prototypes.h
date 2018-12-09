@@ -54,6 +54,9 @@ int noPrototype(t_scopeList *mainNode, t_list *fileContent);
 char *createPrototype(t_scopeList *mainNode);
 int  isGoodPrototypes(char *func, char *proto);
 void unusedVariable(t_scopeList *mainNode, t_list *list);
+void unusedFunction(t_scopeList *mainNode, t_list *list);
+int containsFunction(char *line, char *func);
+void undeclaredVariable(t_scopeList *mainNode, t_list *list);
 //Part3
 
 //createScopeList
