@@ -53,7 +53,7 @@ char *removeSpaces(char *part)
     int n = 0;
     char *ret;
     
-    if ((ret = malloc(sizeof(char) * strlen(part))) == NULL)
+    if ((ret = malloc(sizeof(char) * strlen(part) + 1)) == NULL)
         return (NULL);
     while (part[i] != '\0')
     {  

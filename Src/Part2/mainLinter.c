@@ -120,7 +120,8 @@ void launchMultiLinesRules(t_list *fileContent, t_rules rules)
         commentsHeader(fileContent);
     if (rules.noPrototype == 1)
         noPrototype(mainScopeNode, fileContent);
-
+    if (rules.unusedVariable == 1)
+        unusedVariable(mainScopeNode, fileContent);
 }
 
 void launchSingleLineRules(t_list *fileContent, t_rules rules)
@@ -139,13 +140,6 @@ void launchSingleLineRules(t_list *fileContent, t_rules rules)
             maxLineNumbers(fileContent->path, lineNb, rules.maxLineNumbers);
         if (rules.noMultiDeclaration == 1)
             noMultiDeclaration(fileContent->path, lineNb);
-        //if (rules->commentsHeader == 1)
-        //  commentsHeader(fileContent->path);
-        /*if (rules->maxLineNumbers != 0)
-            maxLineNumbers(fileContent->path, rules->maxLineNumbers);
-        if (rules->maxFileLineNumbers != 0)
-            maxFileLineNumbers(fileContent->path, rules->maxFileLineNumbers); //OK
-        */
         if (rules.noTrailingSpaces == 1)
             noTrailingSpaces(fileContent->path, lineNb);
         fileContent = fileContent->next;

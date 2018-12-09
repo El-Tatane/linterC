@@ -4,6 +4,16 @@
 #include "list.h"
 #include "prototypes.h"
 
+void unusedVariable(t_scopeList *mainNode, t_list *list)
+{
+    //parcourir mainNode et regarder dans scope si variable est utilisé (strstr var)
+}
+
+void undeclaredVariable(t_scopeList *mainNode, t_list *list)
+{
+    
+}
+
 void maxFileLineNumbers(t_list *fileContent, int max)
 {
     if (listLength(fileContent) >= max)
@@ -63,8 +73,9 @@ char *createPrototype(t_scopeList *mainNode)
         ret[strlen(ret) - 1] = ')';
     else
         strcat(ret, ")");
-    ret[strlen(ret)] = ';';
-    ret[strlen(ret) + 1] = '\0';
+    int tmpLen = strlen(ret);
+    ret[tmpLen] = ';';
+    ret[tmpLen + 1] = '\0';
     return (ret);
 }
 
