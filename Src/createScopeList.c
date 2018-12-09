@@ -154,7 +154,6 @@ t_scopeList *addInsideParams(t_scopeList *mainScopeList, char *line, int len, in
     t_var *tmpVar;
 
     tmpVar = getInsideParams(line, len); //retourner liste chainees de parametre int a,b,c
-    //displayVarList(tmpVar);
     mainScopeList = addVarAtPosition(mainScopeList, n, d, tmpVar, len);
     //Add var to position (va aller à la fin de la liste var D => ajouter la liste abc)
     return (mainScopeList);

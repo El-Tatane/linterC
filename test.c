@@ -22,5 +22,14 @@ void function()
   		{
   			short rose;
   		}
+  		if (b)
+  		{
+  			short AHAH;
+  		}
   	}
+	if ()
+	{
+	 }
+
+	long proutate;
 }

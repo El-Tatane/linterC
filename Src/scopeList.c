@@ -4,26 +4,56 @@
 #include "prototypes.h"
 #include "list.h"
 
-void displayScopeList(t_scopeList *mainNode)
+void displayPointorList(t_scopeList *mainNode)
 {
     t_scopeList *tmpDeep;
-    int deep = 1;
-     while (mainNode != NULL)
-    {
-        printf("DEEP %d FUNC NAME : %s FUNC TYPE : %s FOUND AT %d \n",
-         deep, mainNode->funcName, mainNode->returnType, mainNode->foundAtLine);
-        displayVarList(mainNode->varList);
+    
+    while (mainNode != NULL)
+    {    
+        printf("MAINNODE %p VAR %p\n", mainNode, mainNode->varList);
         tmpDeep = mainNode->deep;
         while (tmpDeep != NULL)
-        {    
+        {
+            printf("DEEP %p VAR %p\n", tmpDeep, tmpDeep->varList);
+            tmpDeep = tmpDeep->deep;
+        }
+        mainNode = mainNode->next;
+    }
+    
+}
+
+void displayScopeList(t_scopeList *mainNode)
+{
+    t_scopeList *tmpNode;
+    t_scopeList *tmpDeep;
+    t_scopeList *tmpDN;
+    int deep = 1;
+    
+    tmpNode = mainNode;
+    while (tmpNode != NULL)
+    {     
+        printf("DEEP %d FUNC NAME : %s FUNC TYPE : %s FOUND AT %d \n",
+         deep, tmpNode->funcName, tmpNode->returnType, tmpNode->foundAtLine);
+        displayVarList(tmpNode->varList);
+        tmpDeep = tmpNode->deep;
+        while (tmpDeep != NULL)
+        {
             deep++;
             printf("DEEP %d SCOPE NAME : %s FUNC TYPE : %s FOUND AT %d \n",
              deep, tmpDeep->funcName, tmpDeep->returnType, tmpDeep->foundAtLine);
-            displayVarList(mainNode->varList);
+            displayVarList(tmpDeep->varList);
+            tmpDN = tmpDeep->next;
+            while (tmpDN != NULL)
+            {
+                printf("DEEP %d-BIS SCOPE NAME : %s FUNC TYPE : %s FOUND AT %d \n",
+                deep, tmpDN->funcName, tmpDN->returnType, tmpDN->foundAtLine);
+                displayVarList(tmpDN->varList);
+                tmpDN = tmpDN->next;  
+            }
             tmpDeep = tmpDeep->deep;
         }
         deep = 1;
-        mainNode = mainNode->next;
+        tmpNode = tmpNode->next;
     }
 }
 
@@ -96,7 +126,6 @@ t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *t
     t_scopeList *tmpDeep;
     t_var *tmp;
 
-
     tmpNode = mainScopeNode;
     while (i < n - 1) // enlever - 1 quand ajout casse global
     {
@@ -117,16 +146,16 @@ t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *t
         tmpDeep = tmpDeep->deep;
         i++;
     }
-    printf("%d\n", i);
     while (tmpDeep->next != NULL) //tester if * 2
     {
         tmpDeep = tmpDeep->next;
     }
-    
+ 
     tmp = tmpDeep->varList;
-    
-    if (tmp == NULL)
+    displayVarList(tmpVar);
+    if (tmp == NULL) // node  init à NULL 
     {
+        printf("A\n");
         tmpDeep->varList = tmpVar;
     }
     else if ((strcmp(tmp->name, "UNDEFINED")) == 0)
@@ -140,8 +169,7 @@ t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *t
             tmp = tmp->next;
         }
         tmp->next = tmpVar;
-    }
-    //displayScopeList(mainScopeNode);
+    }    
     return (mainScopeNode);
 }
 
