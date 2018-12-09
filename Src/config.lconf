@@ -3,15 +3,22 @@ Src/config2.lconf
 
 =rules
 - unused-variable = on
-- no-prototype = off
-- indent = off
-- array-Bracket-eol = off
-- operators-spacing = off
-- comma-spacing = off
-- comments-header = off
-- max-line-numbers = off
-- no-trailing-spaces = off
+- no-prototype = on
+- indent = on
+- array-Bracket-eol = on
+- operators-spacing = on
+- comma-spacing = on
+- comments-header = on
+- max-line-numbers = on
+- no-trailing-spaces = on
 - no-multi-declaration = off
+
+- max-file-line-numbers = 10
+- undeclared-variable = on
+- unused-function = on
+- undeclared-function = on
+- variable-assignment-type = on
+- function-parameters-type = on
 
 =excludedFiles
 AAAA.c
