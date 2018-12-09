@@ -40,12 +40,11 @@ void launchMultiLinesRules(t_list *fileContent, t_rules rules);
 void arrayBracketEol(char *line, int rowNb);
 void operatorsSpacing(char *line, int rowNb);
 void commaSpacing(char *line, int rowNb);
-//void indent(char *line);
 void maxLineNumbers(char *line, int rowNb, int max);
 void noTrailingSpaces(char *line, int rowNb);
 void noMultiDeclaration(char *line, int rowNb);
+int ifShortOperator(char *line);
 
-//void commentsHeader(char *line);
 
 // multi lines rule
 void maxFileLineNumbers(t_list *fileContent, int max);
@@ -54,6 +53,7 @@ void indent(char *line, int size, int lineNb, int d);
 int noPrototype(t_scopeList *mainNode, t_list *fileContent);
 char *createPrototype(t_scopeList *mainNode);
 int  isGoodPrototypes(char *func, char *proto);
+void unusedVariable(t_scopeList *mainNode, t_list *list);
 //Part3
 
 //createScopeList
