@@ -9,6 +9,26 @@ void maxFileLineNumbers(t_list *fileContent, int max)
     }
 }
 
+void indent(char *line, int size, int lineNb, int d)
+{
+    int i = 0;
+    int space = 0;
+    int tab = 0;
+
+    while (line[i] != '\0')
+    {
+        if (line[i] != '\t' && line[i] != ' ')
+            break;
+        if (line[i] == ' ')
+            space++;
+        if (line[i] == '\t');
+            tab++;
+        i++;
+    }
+    if ((space * 4  + tab != size * d))
+        displayErrorMessage("indent", lineNb, -1); 
+}
+
 void commentsHeader(t_list *fileContent)
 {
 

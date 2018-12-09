@@ -176,7 +176,7 @@ t_scopeList *addFunction(t_scopeList *mainScopeList, char *line, int len, char *
     return (mainScopeList);
 }
 
-t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
+t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList, t_rules rules)
 {
     int d = 0;
     int n = 0;
@@ -202,6 +202,12 @@ t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
         {
             mainScopeList = addInsideParams(mainScopeList, fileContent->path, len, n, d);
         }
+        if ((strchr(fileContent->path, '}')) != NULL)
+            d--;
+        if (rules.indent != 0)
+        {
+            indent(fileContent->path, rules.indent, len, d);
+        }
         if ((strchr(fileContent->path, '{')) != NULL)
         {
             d++;
@@ -210,11 +216,10 @@ t_scopeList *createScopeList(t_list *fileContent, t_scopeList *mainScopeList)
             else
                 mainScopeList = addEmptyNodeDeepAtPosition(mainScopeList, n, d, len);
         }
-        if ((strchr(fileContent->path, '}')) != NULL)
-            d--;
+
         fileContent = fileContent->next;
         len++;
     }
-    displayScopeList(mainScopeList);
+    //displayScopeList(mainScopeList);
     return (mainScopeList);
 }

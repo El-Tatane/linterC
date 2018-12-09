@@ -152,10 +152,8 @@ t_scopeList *addVarAtPosition(t_scopeList *mainScopeNode, int n, int d, t_var *t
     }
  
     tmp = tmpDeep->varList;
-    displayVarList(tmpVar);
     if (tmp == NULL) // node  init à NULL 
     {
-        printf("A\n");
         tmpDeep->varList = tmpVar;
     }
     else if ((strcmp(tmp->name, "UNDEFINED")) == 0)
