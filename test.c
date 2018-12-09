@@ -5,6 +5,8 @@ int main(int a, int b)
 {
 	char *c;
 	int hou;
+
+	a = 3;
 }
 
 int function1(char *ALPHA)
@@ -15,8 +17,11 @@ int function1(char *ALPHA)
 
 void function()
 {
+
 	char nico;
 	int tatane;
+
+
 	if (a)
 	{
 		long lucie;
@@ -30,5 +35,6 @@ void function()
 			short AHAH;
 		}
 	}
+	rose = 2;
 	long proutate;
 }

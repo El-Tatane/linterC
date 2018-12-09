@@ -4,9 +4,77 @@
 #include "list.h"
 #include "prototypes.h"
 
+int isVarUsed(char *var, char *line, int deep)
+{
+    if (containsType(line) == 0 && strstr(line, var) != NULL)
+        return (1);
+    return (0);
+}
+
+int searchVariable(t_list *tmpList, t_var *var)
+{
+    int deep = 0;
+    int used = 0;
+    int func = 0;
+
+    if (var->isParam == 1)
+    {
+        deep = -1;
+        func = 1;
+    }
+    while (tmpList != NULL) // parcours les lignes du fichier
+    {   
+        if (deep == 0)
+            func = 0;
+        if (deep < 0 && func == 0)
+            break;
+        if (strchr(tmpList->path, '{') != NULL)
+            deep++;
+        if (strchr(tmpList->path, '}') != NULL)
+            deep--;
+        if ((isVarUsed(var->name, tmpList->path, deep)) == 1)
+            used = 1;
+        tmpList = tmpList->next;
+    }
+    if (used == 0)
+    {
+        printf("Error on %s , rule : %s failed at line %d variable : %s \n", currentFile, "unusedVariable", var->foundAtLine , var->name);
+    }
+}
+
+t_list *getStartingLine(t_list *mainNode, int pos)
+{
+    int i = 0;
+    while (i < pos)
+    {
+        mainNode = mainNode->next;
+        i++;
+    }
+    return (mainNode);
+}
+
 void unusedVariable(t_scopeList *mainNode, t_list *list)
 {
-    //parcourir mainNode et regarder dans scope si variable est utilisé (strstr var)
+    t_scopeList *tmpNode;
+    t_list      *tmpList;
+    t_var       *tmpVar;
+
+    tmpNode = mainNode;
+    while (tmpNode != NULL) // parcours chaque fonction
+    {
+        printf("FUNC NAME %s\n", tmpNode->funcName);
+        tmpVar = tmpNode->varList;
+        while (->deep != NULL)
+        {    
+            while (tmpVar != NULL) // parcours chaque liste de variable 
+            {
+                tmpList = getStartingLine(list, tmpVar->foundAtLine);
+                searchVariable(tmpList, tmpVar);      
+                tmpVar = tmpVar->next;
+            }
+        }
+        tmpNode = tmpNode->next;
+    }
 }
 
 void undeclaredVariable(t_scopeList *mainNode, t_list *list)
@@ -129,7 +197,7 @@ void indent(char *line, int size, int lineNb, int d)
             tab++;
         i++;
     }
-    if ((space * 4  + tab != size * d))
+    if ((space / 4  + tab != size * d))
         displayErrorMessage("indent", lineNb, -1); 
 }
 
