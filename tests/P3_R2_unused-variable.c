@@ -8,9 +8,13 @@ int main(int argc, char const *argv[])
 	
 
 	if(1){
-
+		int scope;
 		utile2++;
 	}
 	
+	if (1){
+		scope = 1;
+	}
+
 	return 0;
 }

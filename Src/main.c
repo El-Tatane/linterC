@@ -174,6 +174,7 @@ int getDataFromFile(char *filepath, t_mode *keys, t_tmpRules *tmpRulesList, t_li
     return (0);
 }
 
+
 int main(int ac, char **av) { 
     t_mode *keys;
     t_tmpRules *tmpRulesList;
@@ -207,7 +208,17 @@ int main(int ac, char **av) {
         tmpNode = tmpNode->next;
     }
     fillRuleStuct(tmpRulesList, &rules);
-    //print_final_rules(extendMainNode, excludeMainNode, rules);
     mainLinter(extendMainNode, excludeMainNode, rules, ".");
+    if (keys != NULL)
+        free(keys);
+    if (tmpRulesList != NULL)
+        free(tmpRulesList);
+    if (extendMainNode != NULL)
+        free(extendMainNode);
+    if (excludeMainNode != NULL)
+        free(excludeMainNode);
+    if (tmpNode != NULL)
+        free(tmpNode);
+
     return (0);
 }

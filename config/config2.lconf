@@ -1,7 +1,7 @@
 =extends
 
 =rules
-- unused-variable = on
+- unused-variable = off
 =excludedFiles
 
 =recursive

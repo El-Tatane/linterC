@@ -2,22 +2,22 @@
 config/config2.lconf
 
 =rules
-- unused-variable = off
+- array-Bracket-eol = on
+- operators-spacing = on
+- comma-spacing = on
+- indent = on
+- comments-header = on
+- max-line-numbers = on
+- max-file-line-numbers = on
+- no-trailing-spaces = on
+- no-multi-declaration = on
+- unused-variable = on
+- undeclared-variable = on
 - no-prototype = on
-- indent = 4
-- array-Bracket-eol = off
-- operators-spacing = off
-- comma-spacing = off
-- comments-header = off
-- max-line-numbers = off
-- no-trailing-spaces = off
-- no-multi-declaration = off
-- max-file-line-numbers = off
-- undeclared-variable = off
-- unused-function = off
-- undeclared-function = off
-- variable-assignment-type = off
-- function-parameters-type = off
+- unused-function = on
+- undeclared-function = on
+- variable-assignment-type = on
+- function-parameters-type = on
 
 =excludedFiles
 test.c
